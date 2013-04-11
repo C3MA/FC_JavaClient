@@ -1,0 +1,20 @@
+package de.c3ma.proto;
+
+/**
+ * created at 11.04.2013 - 17:33:53<br />
+ * creator: ollo<br />
+ * project: FullcricleClient<br />
+ * $Id: $<br />
+ * 
+ * @author ollo<br />
+ */
+class ReturnIdType extends ReturnOffset {
+
+    protected int id;
+    protected int type;
+
+    public ReturnIdType() {
+        super();
+    }
+
+}
