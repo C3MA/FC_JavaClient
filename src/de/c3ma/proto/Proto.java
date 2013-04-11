@@ -3,7 +3,7 @@ package de.c3ma.proto;
 /**
  * created at 08.02.2013 - 21:26:49<br />
  * creator: ollo<br />
- * project: FullcricleClient<br />
+ * project: FullcircleClient<br />
  * $Id: $<br />
  * @author ollo<br />
  */
@@ -57,7 +57,14 @@ public class Proto {
         return value;
     }
 
-
+    /**
+     * 
+     * @param buffer
+     * @param offset
+     * @param id to store in the buffer
+     * @param type to store in the buffer
+     * @return new offset
+     */
     public static int serialize(byte[] buffer, int offset, int id, int type)
     {
         int out;
