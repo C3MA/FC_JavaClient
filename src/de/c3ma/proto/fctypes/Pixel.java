@@ -12,7 +12,8 @@ import de.c3ma.proto.Proto;
  */
 public class Pixel implements FullcircleTypes {
 
-    private static final int HEADER_LENGTH = 2;
+    private static final int RGBVALUE_HEADER_SIZES = 2;
+    private static final int HEADER_LENGTH = 5;
     private int red;
     private int green;
     private int blue;
@@ -27,7 +28,11 @@ public class Pixel implements FullcircleTypes {
         this.y = y;
     }
     
-    int getSerializedLength() {
+    public int getSerializedLength() {
+        return getSerializedDataLength() + RGBVALUE_HEADER_SIZES;
+    }
+    
+    private int getSerializedDataLength() {
         return Utils.calculateVariantLength(RGBVALUE_RED, this.red)
         + Utils.calculateVariantLength(RGBVALUE_GREEN, this.green)
         + Utils.calculateVariantLength(RGBVALUE_BLUE, this.blue) 
@@ -37,9 +42,9 @@ public class Pixel implements FullcircleTypes {
     }
     
     public byte[] serialize() {
-        int lenght_pixel = getSerializedLength();
+        int lenght_pixel = getSerializedDataLength();
 
-        byte[] tmpPixelBuffer = new byte[ lenght_pixel];
+        byte[] tmpPixelBuffer = new byte[ lenght_pixel + RGBVALUE_HEADER_SIZES];
         int offset = 0;
 
         /*
