@@ -68,4 +68,26 @@ public class Utils implements FullcircleTypes {
         } while (value != 0);
         return n;
     }
+    
+    /*
+     * @param[in|out] buffer
+     * @param[in] offset
+     * @param[in] proto_id
+     * @param[in] data buffer
+     * @param[in] length of data
+     * @return the new offset
+     */
+    static int addLengthd(byte[] buffer, int offset, int proto_id ,byte[] data, int length)
+    {
+        // Error
+        if (offset == -1) {
+            return -1;
+        }
+        offset = Proto.serialize(buffer, offset, proto_id, Proto.PROTOTYPE_LENGTHD);
+        offset = Proto.serialize_number(buffer, offset, (int) length);
+        // memcpy(buffer+offset, data, length);
+        System.arraycopy(data, 0, buffer, offset, length); 
+        offset +=  length;
+        return offset;
+    }
 }

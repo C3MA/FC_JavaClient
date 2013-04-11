@@ -27,14 +27,19 @@ public class Pixel implements FullcircleTypes {
         this.y = y;
     }
     
+    int getSerializedLength() {
+        return Utils.calculateVariantLength(RGBVALUE_RED, this.red)
+        + Utils.calculateVariantLength(RGBVALUE_GREEN, this.green)
+        + Utils.calculateVariantLength(RGBVALUE_BLUE, this.blue) 
+        + Utils.calculateVariantLength(RGBVALUE_X, this.x)
+        + Utils.calculateVariantLength(RGBVALUE_Y, this.y)
+        + HEADER_LENGTH;
+    }
+    
     public byte[] serialize() {
-        int lenght_pixel = Utils.calculateVariantLength(RGBVALUE_RED, this.red)
-                + Utils.calculateVariantLength(RGBVALUE_GREEN, this.green)
-                + Utils.calculateVariantLength(RGBVALUE_BLUE, this.blue) 
-                + Utils.calculateVariantLength(RGBVALUE_X, this.x)
-                + Utils.calculateVariantLength(RGBVALUE_Y, this.y);
+        int lenght_pixel = getSerializedLength();
 
-        byte[] tmpPixelBuffer = new byte[HEADER_LENGTH + lenght_pixel];
+        byte[] tmpPixelBuffer = new byte[ lenght_pixel];
         int offset = 0;
 
         /*
