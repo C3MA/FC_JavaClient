@@ -55,7 +55,7 @@ public class Utils implements FullcircleTypes {
      */
     static int calculateVariantLength(int proto_id ,int value)
     {
-        int n = 0;
+        int n = 1; // start with one byte, as we need always one byte for the header
 
         //Check if proto_id serialized more than one Byte is
         if (proto_id >> 7 != 0) {
