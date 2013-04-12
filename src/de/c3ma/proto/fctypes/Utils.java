@@ -90,4 +90,9 @@ public class Utils implements FullcircleTypes {
         offset +=  length;
         return offset;
     }
+
+    static int addLengthd(byte[] buffer, int offset, int proto_id, String text) {
+        byte[] bytes = text.getBytes();
+        return addLengthd(buffer, offset, proto_id, bytes, bytes.length);
+    }
 }

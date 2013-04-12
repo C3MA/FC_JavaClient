@@ -11,6 +11,13 @@ import de.c3ma.proto.Proto;
  */
 public class Ping implements FullcircleTypes {
 
+    private int counter = 0;
+    
+    public Ping(final int counter) {
+        this.counter = counter;
+    }
+    
+    
     /**
      * 
      * @param buffer
@@ -18,7 +25,7 @@ public class Ping implements FullcircleTypes {
      * @param counter value of the counter, to write
      * @return new offset in the buffer
      */
-    public static int serializePing(byte[] buffer, int offset, int counter) {
+    private static int serializePing(byte[] buffer, int offset, int counter) {
         
         offset = Utils.addType(buffer, offset, SNIPTYPE_PING);
         
