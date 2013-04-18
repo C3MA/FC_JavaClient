@@ -8,7 +8,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * created at 20.10.2012 - 16:37:57<br />
  * creator: ollo<br />
- * project: FullcricleClient<br />
+ * project: FullcircleClient<br />
  * $Id: $<br />
  * @author ollo<br />
  */
