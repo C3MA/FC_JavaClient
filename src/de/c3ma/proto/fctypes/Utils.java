@@ -11,7 +11,7 @@ import de.c3ma.proto.Proto;
  */
 public class Utils implements FullcircleTypes {
 
-    private static final int HEADER_SIZE = 10;
+    public static final int HEADER_SIZE = 10;
 
     /**
      * 

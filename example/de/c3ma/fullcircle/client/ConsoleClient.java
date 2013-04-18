@@ -26,6 +26,7 @@ public class ConsoleClient {
         rc.requestInformation();
         while(true) {
             Thread.sleep(200);
+            rc.readNetwork();
         }
     }
 

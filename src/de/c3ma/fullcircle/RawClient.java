@@ -1,6 +1,7 @@
 package de.c3ma.fullcircle;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -37,6 +38,31 @@ public class RawClient {
         OutputStream netout = this.mSocket.getOutputStream();
         netout.write(Utils.prefixHeader(new InfoRequest().serialize()));
         netout.flush();
+    }
+
+    /**
+     * This method should be called cyclic to detect incoming information
+     * @throws IOException 
+     */
+    public void readNetwork() throws IOException {
+        InputStream netin = this.mSocket.getInputStream();
+        if (netin.available() > 0) {
+            System.out.println("WE have date!");
+            byte[] buffer = new byte[ Utils.HEADER_SIZE];
+            netin.read(buffer , 0, 10);
+            String text = new String(buffer).trim();
+            try {
+                int payloadLength = Integer.parseInt(text);
+                System.out.println("Got " + payloadLength + " bytes of data");
+                // now read the payload
+                byte[] payload = new byte[payloadLength];
+                netin.read(payload);
+                System.out.println("got : " + payload);
+            } catch (NumberFormatException nfe) {
+                System.err.println("Fatal ERROR, there was no HEADER found");
+            }
+        }
+        
     }
     
 }
