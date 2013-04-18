@@ -78,15 +78,26 @@ public class Request implements FullcircleTypes {
     }
 
     private int send_infoanswer(byte[] buffer, int offset, byte[] meta, int length_meta) {
-        offset = Utils.addType(buffer, offset, SNIPTYPE_INFOANSWER);
+        // build the static headers
+        offset = Utils.addType(buffer, offset, SNIPTYPE_REQUEST);
+        offset = Proto.serialize(buffer, offset, SNIP_REQUESTSNIP, Proto.PROTOTYPE_LENGTHD);
         
-        offset = Proto.serialize(buffer, offset, SNIP_INFOANSWERSNIP, Proto.PROTOTYPE_LENGTHD);
-        // calculate length of SNIP_Requestsnip
-        offset = Proto.serialize_number(buffer, offset, length_meta);
         
-        offset = Utils.addLengthd(buffer, offset, INFOANSWERSNIP_META, meta, length_meta);
+        /**insert the data into a temporary buffer to calculate the length */
+        byte[] tmpBuffer = new byte[DEFAULT_BUFFER];
+        int tmpOffset = 0;        
+        tmpOffset = Utils.addLengthd(tmpBuffer, tmpOffset, REQUESTSNIP_COLOR, this.color);
         
-        return offset;
+        tmpOffset = Utils.addVariant(tmpBuffer, tmpOffset, REQUESTSNIP_SEQID, this.sequenceId);
+        
+        tmpOffset = Utils.addLengthd(tmpBuffer, tmpOffset, REQUESTSNIP_META, meta, length_meta);
+        
+        // use this length for the header
+        offset = Proto.serialize_number(buffer, offset, tmpOffset);
+        // and copy the generated temporary buffer to its target position after the header into the correct buffer
+        System.arraycopy(tmpBuffer, 0, buffer, offset, tmpOffset);
+        
+        return offset + tmpOffset;
 
     }   
     

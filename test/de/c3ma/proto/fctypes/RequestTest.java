@@ -33,7 +33,22 @@ public class RequestTest {
         Request r = new Request("rot", 1, meta);
         byte[] actuals = r.serialize();
         byte[] expecteds = { 0x08, 0x04, 0x72, 0x1A, 0x0A, 0x03, 0x72, 0x6F, 0x74, 0x10, 0x01, 0x1A, 0x11, 0x08, 0x18, 0x10, 0x01, 0x18, 0x01, 0x22, 0x04, 0x54, 0x65, 0x73, 0x74, 0x2A, 0x03, 0x30, 0x2E, 0x30 };
+//        System.out.println("Actual: " + new String(actuals));
+//        System.out.println("Expecteds: " + new String(expecteds));
+//        dumparray("actual:\t\t", actuals);
+//        dumparray("expecteds:\t", expecteds);
         assertArrayEquals(expecteds, actuals);
-        
     }
+
+    void dumparray(String text, byte[] actuals) {
+        System.out.print(text);
+        for (byte b : actuals) {
+            String t = Integer.toHexString(b & 0xFF);
+            if (t.length() <= 1)
+                t = "0" + t;
+            System.out.print(t.toUpperCase() + " ");
+        }
+        System.out.print("\n");
+    }
+    
 }
