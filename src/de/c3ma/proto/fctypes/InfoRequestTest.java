@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * created at 18.04.2013 - 13:26:38<br />
  * creator: ollo<br />
- * project: FullcricleClient<br />
+ * project: FullcircleClient<br />
  * $Id: $<br />
  * @author ollo<br />
  */

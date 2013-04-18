@@ -5,7 +5,7 @@ import de.c3ma.proto.Proto;
 /**
  * created at 18.04.2013 - 13:22:31<br />
  * creator: ollo<br />
- * project: FullcricleClient<br />
+ * project: FullcircleClient<br />
  * $Id: $<br />
  * @author ollo<br />
  */
