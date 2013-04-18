@@ -11,6 +11,8 @@ import de.c3ma.proto.Proto;
  */
 public class Utils implements FullcircleTypes {
 
+    private static final int HEADER_SIZE = 10;
+
     /**
      * 
      * @param buffer
@@ -94,5 +96,18 @@ public class Utils implements FullcircleTypes {
     static int addLengthd(byte[] buffer, int offset, int proto_id, String text) {
         byte[] bytes = text.getBytes();
         return addLengthd(buffer, offset, proto_id, bytes, bytes.length);
+    }
+    
+    /**
+     * Add the specific fullcircle header in front of a payload
+     * @param payload the data to transmit
+     * @return complete data containing the header and the payload
+     */
+    public static byte[] prefixHeader(final byte[] payload) {
+        String header = String.format("%"+HEADER_SIZE+"d", payload.length); // format string should be always %10d 
+        byte[] output = new byte[10 + payload.length];
+        System.arraycopy(header.getBytes(), 0, output, 0, HEADER_SIZE);
+        System.arraycopy(payload, 0, output, HEADER_SIZE, payload.length);
+        return output;
     }
 }
