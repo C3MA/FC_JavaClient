@@ -9,6 +9,8 @@ package de.c3ma.proto.fctypes;
  * @author ollo<br />
  */
 public interface FullcircleTypes {
+    
+    final int DEFAULT_BUFFER = 1024;
 
     // Defines based on sequence.proto from Fullcircle
     // BinarySequenceMetadata

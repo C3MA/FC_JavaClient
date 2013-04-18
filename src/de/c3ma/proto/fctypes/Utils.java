@@ -110,4 +110,9 @@ public class Utils implements FullcircleTypes {
         System.arraycopy(payload, 0, output, HEADER_SIZE, payload.length);
         return output;
     }
+
+    public static FullcircleSerialize parseRequest() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

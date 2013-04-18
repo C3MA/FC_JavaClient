@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoRequest;
 import de.c3ma.proto.fctypes.Utils;
 
@@ -42,12 +43,13 @@ public class RawClient {
 
     /**
      * This method should be called cyclic to detect incoming information
-     * @throws IOException 
+     * @throws IOException
+     * @return <code>null</code> when no data was found or the Data is invalid
      */
-    public void readNetwork() throws IOException {
+    public FullcircleSerialize readNetwork() throws IOException {
         InputStream netin = this.mSocket.getInputStream();
         if (netin.available() > 0) {
-            System.out.println("WE have date!");
+            System.out.println("WE have data!");
             byte[] buffer = new byte[ Utils.HEADER_SIZE];
             netin.read(buffer , 0, 10);
             String text = new String(buffer).trim();
@@ -58,10 +60,12 @@ public class RawClient {
                 byte[] payload = new byte[payloadLength];
                 netin.read(payload);
                 System.out.println("got : " + payload);
+                return Utils.parseRequest();
             } catch (NumberFormatException nfe) {
                 System.err.println("Fatal ERROR, there was no HEADER found");
             }
         }
+        return null;
         
     }
     
