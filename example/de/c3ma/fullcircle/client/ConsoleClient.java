@@ -33,6 +33,9 @@ public class ConsoleClient {
         RawClient rc = new RawClient(args[0]);
         
         rc.requestInformation();
+        
+        int counter = 0;
+        
         while(true) {
             Thread.sleep(10);
             FullcircleSerialize got = rc.readNetwork();
@@ -57,7 +60,8 @@ public class ConsoleClient {
             // send something... NOW
             if (mSendFrames) {
                 Frame f = new Frame();
-                f.add(new Pixel(255, 0, 0, 0, 0));
+                f.add(new Pixel(counter++, 0, 0, 0, 0));
+                counter = counter % 255;
                 rc.sendFrame(f);
             }
         }
