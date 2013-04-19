@@ -12,7 +12,7 @@ import de.c3ma.proto.ReturnIdType;
  * $Id: $<br />
  * @author ollo<br />
  */
-class Meta implements FullcircleTypes, FullcircleSerialize {
+public class Meta implements FullcircleTypes, FullcircleSerialize {
     
     /**
      * frames per second

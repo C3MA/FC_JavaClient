@@ -112,4 +112,8 @@ public class InfoAnswer implements FullcircleSerialize, FullcircleTypes {
         return "InfoAnswer { " + meta.fps + ", " + meta.width + "x" + meta.height + ", " 
             + meta.name + ", " + meta.version + "}";
     }
+
+    public Meta getMeta() {
+        return meta;
+    }
 }

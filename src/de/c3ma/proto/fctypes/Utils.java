@@ -139,16 +139,18 @@ public class Utils implements FullcircleTypes {
             FullcircleSerialize ia = new InfoAnswer();
             ia.deserialize(payload, ret.getOffset());
             return ia;
+        case SNIPTYPE_START:
+            return new Start();
+        case SNIPTYPE_TIMEOUT:
+            return new Timeout();
         /* TODO not handled parsing */
         case SNIPTYPE_PING:
         case SNIPTYPE_PONG:
         case SNIPTYPE_ERROR:
         case SNIPTYPE_REQUEST:
-        case SNIPTYPE_START:
         case SNIPTYPE_FRAME:
         case SNIPTYPE_ACK:
         case SNIPTYPE_NACK:
-        case SNIPTYPE_TIMEOUT:
         case SNIPTYPE_ABORT:
         case SNIPTYPE_EOS:
         case SNIPTYPE_INFOREQUEST:

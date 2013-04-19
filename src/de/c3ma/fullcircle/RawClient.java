@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoRequest;
+import de.c3ma.proto.fctypes.Meta;
+import de.c3ma.proto.fctypes.Request;
 import de.c3ma.proto.fctypes.Utils;
 
 /**
@@ -66,6 +68,22 @@ public class RawClient {
         }
         return null;
         
+    }
+
+    public void requestStart(final String color, final int id, final Meta meta) throws IOException {
+        OutputStream netout = this.mSocket.getOutputStream();
+        netout.write(Utils.prefixHeader(new Request(color, id, meta).serialize()));
+        netout.flush();
+    }
+
+    public void close() {
+        if (mSocket != null) {
+            try {
+                mSocket.close();
+            } catch (IOException e) {
+                System.err.println("Cannot close the socket " + e.getMessage());
+            }
+        }
     }
     
 }
