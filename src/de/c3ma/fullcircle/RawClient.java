@@ -59,8 +59,7 @@ public class RawClient {
                 // now read the payload
                 byte[] payload = new byte[payloadLength];
                 netin.read(payload);
-                System.out.println("got : " + payload);
-                return Utils.parseRequest();
+                return Utils.parseRequest(payload);
             } catch (NumberFormatException nfe) {
                 System.err.println("Fatal ERROR, there was no HEADER found");
             }

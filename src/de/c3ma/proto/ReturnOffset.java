@@ -12,4 +12,8 @@ abstract class ReturnOffset {
 
     public ReturnOffset() {
     }
+    
+    public int getOffset() {
+        return actualOffset;
+    }
 }

@@ -105,4 +105,20 @@ public class Proto {
         
         return offset;
     }
+
+    /**
+     * read a string starting with the length
+     * @param bytecode
+     * @param offset start offset; must point to the length in front of the text
+     * @param ret contains the position, where the parser stopped
+     * @return the read text or <code>null</code> on errors
+     */
+    public static String parse_string(byte[] bytecode, int offset, ReturnIdType ret) {
+        // TODO Auto-generated method stub
+        int length = Proto.parse_number(bytecode, offset, ret);
+        byte[] tmp = new byte[length];
+        System.arraycopy(bytecode, ret.actualOffset, tmp, 0, length);
+        ret.actualOffset += length;
+        return new String(tmp);
+    }
 }

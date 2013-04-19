@@ -1,6 +1,9 @@
 package de.c3ma.proto.fctypes;
 
+import java.io.IOException;
+
 import de.c3ma.proto.Proto;
+import de.c3ma.proto.ReturnIdType;
 
 /**
  * created at 18.04.2013 - 15:34:22<br />
@@ -57,8 +60,32 @@ public class InfoAnswer implements FullcircleSerialize, FullcircleTypes {
     }   
     
     @Override
-    public void deserialize(byte[] bytecode) {
+    public void deserialize(byte[] bytecode, final int actualOffset) throws IOException {
         //TODO insert some logic here!
+        
+        /* First parse the header to determine the correct type */
+        ReturnIdType ret = Proto.parse(bytecode, actualOffset);
+        if (ret.getId() != SNIP_INFOANSWERSNIP || ret.getType() != Proto.PROTOTYPE_LENGTHD) {
+            throw new IOException("Unexpected header for InfoAnswer");
+        }
+        
+        int metaLength = Proto.parse_number(bytecode, ret.getOffset(), ret);
+        if (metaLength + ret.getOffset() > bytecode.length) {
+            throw new IOException("Meta should have " + metaLength + " bytes, but " + (bytecode.length- ret.getOffset()) + " are only available."); 
+        }
+        
+        /* The body containing the meta information needs to be unpacked */
+        ret = Proto.parse(bytecode, ret.getOffset());
+        if (ret.getId() != INFOANSWERSNIP_META || ret.getType() != Proto.PROTOTYPE_LENGTHD) {
+            throw new IOException("Unexpected body with meta information");
+        }
+        
+        int metaContent = Proto.parse_number(bytecode, ret.getOffset(), ret);
+        if (metaContent + ret.getOffset() > bytecode.length) {
+            throw new IOException("Meta data content should have " + metaLength + " bytes, but " + (bytecode.length- ret.getOffset()) + " are only available."); 
+        }
+        
+        meta.deserialize(bytecode, ret.getOffset());
     }
 
     public int getFPS() {
@@ -81,4 +108,10 @@ public class InfoAnswer implements FullcircleSerialize, FullcircleTypes {
         return meta.version;
     }
 
+    
+    @Override
+    public String toString() {
+        return "InfoAnswer { " + meta.fps + ", " + meta.width + "x" + meta.height + ", " 
+            + meta.name + ", " + meta.version + "}";
+    }
 }

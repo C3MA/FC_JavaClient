@@ -1,5 +1,7 @@
 package de.c3ma.proto.fctypes;
 
+import java.io.IOException;
+
 /**
  * created at 18.04.2013 - 15:35:11<br />
  * creator: ollo<br />
@@ -9,5 +11,5 @@ package de.c3ma.proto.fctypes;
  */
 public interface FullcircleSerialize {
     
-    public void deserialize(final byte[] bytecode);
+    public void deserialize(final byte[] bytecode, final int actualOffset)  throws IOException;
 }

@@ -8,7 +8,7 @@ package de.c3ma.proto;
  * 
  * @author ollo<br />
  */
-class ReturnIdType extends ReturnOffset {
+public class ReturnIdType extends ReturnOffset {
 
     protected int id;
     protected int type;
@@ -17,4 +17,11 @@ class ReturnIdType extends ReturnOffset {
         super();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getType() {
+        return type;
+    }
 }
