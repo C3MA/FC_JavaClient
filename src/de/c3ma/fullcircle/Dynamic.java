@@ -23,6 +23,8 @@ import de.c3ma.proto.fctypes.Timeout;
  */
 public class Dynamic {
 
+    private static final int DEFAULT_CYCLETIME = 1000;
+
     private static final String CLIENT_NAME = "java";
 
     private static final String CLIENT_VERSION = "1.0";
@@ -163,7 +165,11 @@ public class Dynamic {
     }
 
     public int getUpdateTime() {
-        return MS_OF_A_SECOND / fps;
+        if (fps <= 0) {
+            return DEFAULT_CYCLETIME;
+        } else {
+            return MS_OF_A_SECOND / fps;
+        }
     }
 
     public void processNetwork() throws IOException {

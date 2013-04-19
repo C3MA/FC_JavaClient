@@ -46,11 +46,11 @@ public class DynamicAutoUdpater extends Thread {
         while(mRunning) {
             try {
                 Thread.sleep(mDynamic.getUpdateTime());
-                Graphics g = mDynamic.getGraphics();
 
                 mDynamic.processNetwork();
                 
                 if (mVisible) {
+                    Graphics g = mDynamic.getGraphics();
                     synchronized (g) {
                         mOnpaint.paint(g);
                     } 
