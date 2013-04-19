@@ -61,8 +61,6 @@ public class InfoAnswer implements FullcircleSerialize, FullcircleTypes {
     
     @Override
     public void deserialize(byte[] bytecode, final int actualOffset) throws IOException {
-        //TODO insert some logic here!
-        
         /* First parse the header to determine the correct type */
         ReturnIdType ret = Proto.parse(bytecode, actualOffset);
         if (ret.getId() != SNIP_INFOANSWERSNIP || ret.getType() != Proto.PROTOTYPE_LENGTHD) {
