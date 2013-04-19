@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import de.c3ma.fullcircle.RawClient;
+import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
 import de.c3ma.proto.fctypes.Meta;
+import de.c3ma.proto.fctypes.Pixel;
 import de.c3ma.proto.fctypes.Start;
 import de.c3ma.proto.fctypes.Timeout;
 
@@ -18,6 +20,8 @@ import de.c3ma.proto.fctypes.Timeout;
  * @author ollo<br />
  */
 public class ConsoleClient {
+
+    private static boolean mSendFrames = false;
 
     /**
      * @param args First argument MUST be the IP address of the host
@@ -42,11 +46,19 @@ public class ConsoleClient {
                     rc.requestStart("java", 1, meta);    
                 } else if (got instanceof Start) {
                     System.out.println("We have a GOOO send some data!");
+                    mSendFrames = true;
                 } else if (got instanceof Timeout) {
                     System.out.println("Too slow, so we close the session");
                     rc.close();
                     System.exit(1);
                 }
+            }
+            
+            // send something... NOW
+            if (mSendFrames) {
+                Frame f = new Frame();
+                f.add(new Pixel(255, 0, 0, 0, 0));
+                rc.sendFrame(f);
             }
         }
     }

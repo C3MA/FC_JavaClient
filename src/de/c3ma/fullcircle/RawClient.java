@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoRequest;
 import de.c3ma.proto.fctypes.Meta;
@@ -84,6 +85,17 @@ public class RawClient {
                 System.err.println("Cannot close the socket " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Send a complete image to the wall
+     * @param frame
+     * @throws IOException 
+     */
+    public void sendFrame(Frame frame) throws IOException {
+        OutputStream netout = this.mSocket.getOutputStream();
+        netout.write(Utils.prefixHeader(frame.serialize()));
+        netout.flush();
     }
     
 }
