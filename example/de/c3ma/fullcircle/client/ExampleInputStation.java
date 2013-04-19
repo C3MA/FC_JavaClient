@@ -28,16 +28,17 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
     
     private int frame_index = 0;
 
-    public ExampleInputStation() throws IOException {
+    public ExampleInputStation(String[] args) throws IOException {
         // some default stuff, that is needed to show a window and handle Button reaction.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
         setSize(200, 200);
         setVisible(true);
         // now create the connection to the wall
-        Dynamic d = new Dynamic(6, 10, 12, "localhost:1234");
-        d.setOnPaint(this);
-        
+        if (args.length >= 1) {
+            Dynamic d = new Dynamic(args[0]);
+            d.setOnPaint(this);
+        }
     }
     
     /**
@@ -45,7 +46,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
-        new ExampleInputStation();
+        new ExampleInputStation(args);
     }
 
     @Override

@@ -25,6 +25,11 @@ public class DynamicAutoUdpater extends Thread {
      * flag, needed to stop the thread normally
      */
     private boolean mRunning = true;
+    
+    /**
+     * if the stack is ready to update something
+     */
+    private boolean mVisible = false;
 
     /**
      * Worker class, that updates frequently the user application
@@ -42,11 +47,15 @@ public class DynamicAutoUdpater extends Thread {
             try {
                 Thread.sleep(mDynamic.getUpdateTime());
                 Graphics g = mDynamic.getGraphics();
+
+                mDynamic.processNetwork();
                 
-                synchronized (g) {
-                    mOnpaint.paint(g);
-                } 
-                mDynamic.updateGraphics();
+                if (mVisible) {
+                    synchronized (g) {
+                        mOnpaint.paint(g);
+                    } 
+                    mDynamic.updateGraphics();
+                }
             } catch (InterruptedException e) {
                 mRunning = false;
                 System.err.println("Background thread was killed.");
@@ -62,6 +71,10 @@ public class DynamicAutoUdpater extends Thread {
 
     public void close() {
         this.mRunning = false;        
+    }
+
+    public void setVisible(boolean b) {
+        this.mVisible  = b;
     }
 
 }
