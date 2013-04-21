@@ -77,7 +77,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
         {
             System.out.println("RIGHT");
         } else {
-            System.out.println(e.getID() + " [expected=" + Event.KEY_ACTION + "] "+ e.getKeyCode());
+            System.out.println("KEY : " + e.getID() + " [expected=" + Event.KEY_ACTION + "] "+ e.getKeyCode());
         }
     }
 

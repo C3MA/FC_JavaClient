@@ -95,5 +95,16 @@ frame {
         assertArrayEquals(expecteds, actuals);
     }
     
-    
+    @Test
+    public void firstTestFrame()
+    {
+        Frame f = new Frame();
+        for(int y=0; y < 2; y++)
+            for(int x=0; x < 9; x++) {
+                f.add(new Pixel(0, 0, 0, x, 0));
+            }
+        f.add(new Pixel(0, 0, 0, 0, 95));
+        byte[] actuals = f.serialize();
+        //FIXME determine the expected format
+    }
 }

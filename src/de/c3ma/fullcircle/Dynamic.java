@@ -161,6 +161,8 @@ public class Dynamic {
 //            System.out.println();
 //        }
         
+        client.sendFrame(image);
+        
         mLastmodification = System.currentTimeMillis();
     }
 

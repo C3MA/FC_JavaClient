@@ -14,6 +14,7 @@ import de.c3ma.proto.Proto;
 public class Frame implements FullcircleTypes {
 
     private static final int HEADER_SIZE = 10;
+    private static final int BUFFER_SPACE = 2048;
     private ArrayList<Pixel> mPixels = new ArrayList<Pixel>();
     
     public Frame() {
@@ -33,7 +34,8 @@ public class Frame implements FullcircleTypes {
         int offset=0;
         byte[] length_frame_serialized = new byte[HEADER_SIZE]; //TODO: Größe ermitteln
         int lenght_frame_length = Proto.serialize_number(length_frame_serialized, 0, pixelDataSize);
-        byte[] tempBuffer = new byte[lenght_frame_length + pixelDataSize + 6];
+        int outputBufferLength = lenght_frame_length + pixelDataSize + 6;
+        byte[] tempBuffer = new byte[outputBufferLength + BUFFER_SPACE];
         
         offset = Utils.addType(tempBuffer, offset, SNIPTYPE_FRAME);
         
@@ -44,9 +46,15 @@ public class Frame implements FullcircleTypes {
          */
         offset = Proto.serialize_number(tempBuffer, offset, pixelDataSize + lenght_frame_length + 1);
         
+        if (offset + pixelDataSize >= outputBufferLength)
+            throw new NumberFormatException("Need space for " + (offset + pixelDataSize) + " bytes, but only " + outputBufferLength + " are available.");
+        
         offset = Utils.addLengthd(tempBuffer, offset, FRAMESNIP_FRAME, frame, pixelDataSize);
-                
-        return tempBuffer;
+        
+        /* Shrink the returning buffer to the needed size */
+        byte[] retBuffer = new byte[offset];
+        System.arraycopy(tempBuffer, 0, retBuffer, 0, offset);
+        return retBuffer;
     }
 
     private byte[] serializeAllPixels() {
