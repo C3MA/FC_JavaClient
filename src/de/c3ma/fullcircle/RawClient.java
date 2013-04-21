@@ -106,13 +106,13 @@ public class RawClient {
       for(int y=0; y < image.getHeight(null); y++) {
           for(int x=0; x < image.getWidth(); x++) {
               Color c = new Color(image.getRGB(x, y));
-              System.out.print(", " 
-                      + String.format("%02X", c.getRed())
-                      + String.format("%02X", c.getGreen())
-                      + String.format("%02X", c.getBlue()));
+//              System.out.print(", " 
+//                      + String.format("%02X", c.getRed())
+//                      + String.format("%02X", c.getGreen())
+//                      + String.format("%02X", c.getBlue()));
               f.add(new Pixel(c.getRed(), c.getGreen(), c.getBlue(), x, y));
           }
-          System.out.println();
+//          System.out.println();
       }
       sendFrame(f);  
     }

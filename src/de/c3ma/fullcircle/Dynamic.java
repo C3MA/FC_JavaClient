@@ -6,11 +6,9 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
-import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
 import de.c3ma.proto.fctypes.Meta;
-import de.c3ma.proto.fctypes.Pixel;
 import de.c3ma.proto.fctypes.Start;
 import de.c3ma.proto.fctypes.Timeout;
 
@@ -126,7 +124,7 @@ public class Dynamic {
      * @throws IOException on wrong resolution
      * @throws TimeoutException when updating too fast. 
      */
-    public void updateGraphics() throws IOException, TimeoutException {
+    void updateGraphics() throws IOException, TimeoutException {
         update(mImage);
     }
     
@@ -136,7 +134,7 @@ public class Dynamic {
      * @throws IOException on wrong image resolution.
      * @throws TimeoutException when a new frame are send too fast
      */
-    public void update(final BufferedImage image) throws IOException, TimeoutException {
+    private void update(final BufferedImage image) throws IOException, TimeoutException {
         if (image.getHeight(null) != height &&
                 image.getWidth(null) != width)
         {
@@ -149,24 +147,12 @@ public class Dynamic {
             throw new TimeoutException();
         }
         
-        //TODO send, the image to the WALL over the network interface.
-//        for(int y=0; y < image.getHeight(null); y++) {
-//            for(int x=0; x < image.getWidth(); x++) {
-//                Color c = new Color(image.getRGB(x, y));
-//                System.out.print(", " 
-//                        + String.format("%02X", c.getRed())
-//                        + String.format("%02X", c.getGreen())
-//                        + String.format("%02X", c.getBlue()));
-//            }
-//            System.out.println();
-//        }
-        
         client.sendFrame(image);
         
         mLastmodification = System.currentTimeMillis();
     }
 
-    public int getUpdateTime() {
+    int getUpdateTime() {
         if (fps <= 0) {
             return DEFAULT_CYCLETIME;
         } else {
@@ -174,7 +160,7 @@ public class Dynamic {
         }
     }
 
-    public void processNetwork() throws IOException {
+    void processNetwork() throws IOException {
         FullcircleSerialize got = client.readNetwork();
         if (got != null) {
             System.out.println(got);
@@ -191,7 +177,6 @@ public class Dynamic {
             } else if (got instanceof Timeout) {
                 System.out.println("Too slow, so we close the session");
                 client.close();
-                System.exit(1);
             }
         }
     }
