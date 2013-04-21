@@ -31,7 +31,8 @@ public class FullcircleClient {
      * The connection to the serve
      */
     private RawClient client;
-    private boolean mConnectionEstablished;
+    private boolean mConnectionEstablished = false;
+    private boolean mOpened = false;
     
     
     public boolean open(final String host) {
@@ -41,16 +42,20 @@ public class FullcircleClient {
             this.client.requestInformation();
             return true;
         } catch (UnknownHostException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error with hostname : " + e.getMessage());
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Connection problem : " + e.getMessage());
         }
         return false;
     }
     
 
-    boolean processNetwork() {
-        try {
+    public boolean processNetwork() {
+        // without an connection, anything is to be done
+        if (client == null)
+            return true;
+        
+        try {            
             FullcircleSerialize got = client.readNetwork();
             if (got != null) {
                 System.out.println(got);
@@ -60,6 +65,7 @@ public class FullcircleClient {
                     this.fps = ia.getFPS();
                     this.width = ia.getWidth();
                     this.height = ia.getHeight();
+                    this.mOpened  = true;
                     connect();
                 } else if (got instanceof Start) {
                     System.out.println("We have a GOOO send some data!");
@@ -86,6 +92,10 @@ public class FullcircleClient {
     }
     
     public boolean sendFrame(Frame frame) {
+        // not connected, so nothing to do
+        if (!isConnected())
+            return false;
+        
         try {
             client.sendFrame(frame);
             return true;
@@ -96,6 +106,10 @@ public class FullcircleClient {
     }
     
     public boolean sendFrame(BufferedImage image) {
+        // not connected, so nothing to do
+        if (!isConnected())
+            return false;
+        
         try {
             client.sendFrame(image);
             return true;
@@ -107,6 +121,10 @@ public class FullcircleClient {
     
     public boolean isConnected() {
         return mConnectionEstablished;
+    }
+    
+    public boolean isOpened() {
+        return mOpened;
     }
     
     public int getWidth() {

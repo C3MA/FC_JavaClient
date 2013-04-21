@@ -155,7 +155,7 @@ public class Utils implements FullcircleTypes {
         case SNIPTYPE_EOS:
         case SNIPTYPE_INFOREQUEST:
         default:
-            System.err.println("Numer is " + sniptype);
+            System.err.println("Number is " + sniptype);
             break;
         }
         return null;
