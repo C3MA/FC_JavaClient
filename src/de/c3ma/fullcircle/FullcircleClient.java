@@ -33,6 +33,7 @@ public class FullcircleClient {
     private RawClient client;
     private boolean mConnectionEstablished = false;
     private boolean mOpened = false;
+    private Frame mStaticFrame;
     
     
     public boolean open(final String host) {
@@ -48,7 +49,6 @@ public class FullcircleClient {
         }
         return false;
     }
-    
 
     public boolean processNetwork() {
         // without an connection, anything is to be done
@@ -93,7 +93,7 @@ public class FullcircleClient {
     
     public boolean sendFrame(Frame frame) {
         // not connected, so nothing to do
-        if (!isConnected())
+        if (!isConnected() || frame == null)
             return false;
         
         try {
@@ -107,7 +107,7 @@ public class FullcircleClient {
     
     public boolean sendFrame(BufferedImage image) {
         // not connected, so nothing to do
-        if (!isConnected())
+        if (!isConnected() || image == null)
             return false;
         
         try {
@@ -117,6 +117,38 @@ public class FullcircleClient {
             System.err.println(e.getMessage());
         }
         return false;
+    }
+    
+    /**
+     * entry point to prepare the cyclically sending of frames (all needed objects are allocated here)
+     * This mechanism reduces the GC calls and should increase the performance
+     */
+    public void generateFrame() {
+        this.mStaticFrame = new Frame(this.width, this.height);
+    }
+    
+    /**
+     * Update the static frame
+     * @param red
+     * @param green
+     * @param blue
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean updatePixel(int red, int green, int blue, int x, int y) {
+        if (this.mStaticFrame == null)
+            return false;
+        this.mStaticFrame.updatePixel(red, green, blue, x, y);
+        return true;
+    }
+    
+    /**
+     * Send this static frame
+     * @return success
+     */
+    public boolean sendFrame() {
+        return sendFrame(this.mStaticFrame);
     }
     
     public boolean isConnected() {

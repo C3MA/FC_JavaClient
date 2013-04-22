@@ -16,11 +16,45 @@ public class Frame implements FullcircleTypes {
     private static final int HEADER_SIZE = 10;
     private static final int BUFFER_SPACE = 2048;
     private ArrayList<Pixel> mPixels = new ArrayList<Pixel>();
+    private int width = 0;
     
     public Frame() {
         
     }
     
+    /**
+     * This constructor needs the resolution of the frame, but provides a direct access to the Pixel.
+     * The pixel can be modified on demand
+     * @param width
+     * @param height
+     */
+    public Frame(int width, int height) {
+        this.width  = width;
+        for(int y=0; y < height; y++)
+        {
+            for(int x=0; x < width; x++)
+            {
+                mPixels.add(new Pixel(0, 0, 0, x, y));
+            }
+        }
+    }
+    
+    /**
+     * Only if the second constructor was used, and the width is known, the pixels can be updated directly
+     * @param red
+     * @param green
+     * @param blue
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean updatePixel(int red, int green, int blue, int x, int y) {
+        if (width <= 0)
+            return false;
+        mPixels.get(y*width + x).update(red, green, blue);
+        return true;
+    }
+
     public void add(Pixel p)
     {
         this.mPixels.add(p);

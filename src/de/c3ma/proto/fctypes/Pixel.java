@@ -69,4 +69,10 @@ public class Pixel implements FullcircleTypes {
     public String toString() {
         return x + "x" + y + " #" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
     }
+
+    public void update(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
 }
