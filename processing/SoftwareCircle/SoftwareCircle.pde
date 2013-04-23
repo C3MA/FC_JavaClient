@@ -41,7 +41,7 @@ void setup()
   minim = new Minim(this);
 
   // get a line in from Minim, default bit depth is 16
-  in = minim.getLineIn(Minim.STEREO,512);
+  in = minim.getLineIn(Minim.STEREO,512, 44100); /* default 44100 */
 
   // create an FFT object that has a time-domain buffer 
   // the same size as jingle's sample buffer
@@ -69,7 +69,7 @@ void setup()
   windowName = "Hamming";
 
   controlP5.addToggle("slomotion", false, 700, startVisualisationY + 60, 80, 20);
-  controlP5.addSlider("micFactor",1,1000,100,10,startVisualisationY + 60,300,10);
+  controlP5.addSlider("micFactor",1,100,50,10,startVisualisationY + 60,300,10);
   controlP5.addTextfield("fullcircle_host",10,startVisualisationY + 10,400,20);
 }
 
@@ -166,8 +166,7 @@ void draw()
         shrinkValue=true;
       else
         output[outi] = value;
-    } 
-    else {
+    } else {
       output[outi] = max(output[outi],  value);
     }
     maxValue = max(maxValue, value);
@@ -217,15 +216,51 @@ void sendFrame() {
   int height = fc.getHeight();
   int value = 0;
   
+    /*
+     * Output:
+     * 0 - 25    1th row
+     * 25 - 50   2th row
+     * 50 - 75   3th row
+     * 75 - 100  4th row
+     * 100 - 125 5th row
+     * 125 - 150 6th row
+     * and so on
+     */
+  final int BOX_AMPLITUDE_WITDH = 25;
+  int[] amplitudeSpreading = new int[] { 0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250};
+  
   for(int i=0; i < fc.getWidth(); i++) {
-    fc.updatePixel(0,(int) (output[i] % 255), 0, i, height-1);
-    if (output[i] > 510 && height >= 1) {
-      value = ((output[i] - 510) % 255);
-      fc.updatePixel(value, value, 0, i, height-2);
-    } else if (output[i] > 255 && height >= 1) {
-      fc.updatePixel((int) 0,(int) ((output[i] - 255) % 255), 0, i, height-2);
-    } else {
-      fc.updatePixel(0, 0, 0, i, height-2);
+    for(int row = 0; row < amplitudeSpreading.length; row++)
+    {
+      if (height <= row)
+        continue;
+      
+      int diff = output[i] - amplitudeSpreading[row];
+      if (diff > BOX_AMPLITUDE_WITDH) {
+        value = 255; /* use the maximum value */
+      } else if (diff <= 0) {
+          /* clear the value! */
+          value = 0;
+      } else {
+        value = (diff % BOX_AMPLITUDE_WITDH) * 10;
+      }
+      
+      switch(row) {
+        case 6:
+        case 7:
+        case 8:
+          /* upper level is yellow */
+          fc.updatePixel(value, value, 0, i, height - (row + 1));
+          break;
+        case 9:
+          /* toprow is red */
+          fc.updatePixel(value, 0, 0, i, height - (row + 1));
+          break;
+        default:
+          /* default is greeen */
+           fc.updatePixel(0, value, 0, i, height - (row + 1));
+           break;
+      }
     }
   }
   fc.sendFrame();
