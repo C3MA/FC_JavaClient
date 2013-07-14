@@ -1,5 +1,6 @@
 package de.c3ma.fullcircle.client;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -21,6 +22,8 @@ import de.c3ma.proto.fctypes.Timeout;
  */
 public class CircleClient {
 
+    private static final int MAX_COLOR_VALUE = 255;
+    private static final int STATIC_FACTOR = 47;
     private static int RED = 255;
     private static int GREEN = 0;
     private static int BLUE = 0;
@@ -82,12 +85,6 @@ public class CircleClient {
 
                 Frame f = new Frame();
                 
-                xmittel += 1;
-                xmittel = xmittel % mWidth;
-                ymittel += 1;
-                ymittel = ymittel % mHeight;
-                System.out.println(xmittel + "x" + ymittel);
-                
                 /* ALgorithm: http://de.wikipedia.org/wiki/Bresenham-Algorithmus */
                 /*Bresenham-Algorithmus für einen Achtelkreis in Pseudo-Basic */
                 /*gegeben seien r, xmittel, ymittel*/
@@ -97,7 +94,7 @@ public class CircleClient {
                 int fehler = r;
                 /* "schnelle" Richtung ist hier y! */
                 /* SETPIXEL xmittel + x, ymittel + y */
-                f.add(new Pixel(RED, GREEN, BLUE, xmittel + x, ymittel + y));
+                f.add(new Pixel(xmittel + x, ymittel + y, generateColor(counter++)));
                 
                 /*Pixelschleife: immer ein Schritt in schnelle Richtung, hin und wieder auch einer in langsame*/
                 while(y < x) {
@@ -112,29 +109,52 @@ public class CircleClient {
                       fehler = fehler-dx;
                    }
                    /* SETPIXEL xmittel + x, ymittel + y */
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel + x, ymittel + y));
+                   f.add(new Pixel(xmittel + x, ymittel + y, generateColor(counter++)));
                    
                    /* Wenn es um einen Bildschirm und nicht mechanisches Plotten geht,
                     kann man die anderen Oktanten hier gleich mit abdecken: */
                    /*SETPIXEL xmittel-x, ymittel+y*/
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel - x, ymittel + y));
+                   f.add(new Pixel(xmittel - x, ymittel + y, generateColor(counter++)));
                    /*SETPIXEL xmittel-x, ymittel-y*/
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel - x, ymittel - y));
+                   f.add(new Pixel(xmittel - x, ymittel - y, generateColor(counter++)));
                    /*SETPIXEL xmittel+x, ymittel-y*/
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel + x, ymittel - y));
+                   f.add(new Pixel(xmittel + x, ymittel - y, generateColor(counter++)));
                    /*SETPIXEL xmittel+y, ymittel+x*/
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel + y, ymittel + x));
+                   f.add(new Pixel(xmittel + y, ymittel + x, generateColor(counter++)));
                    /* SETPIXEL xmittel-y, ymittel+x */
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel - y, ymittel + x));
+                   f.add(new Pixel(xmittel - y, ymittel + x, generateColor(counter++)));
                    /* SETPIXEL xmittel-y, ymittel-x */
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel - y, ymittel - x));
+                   f.add(new Pixel(xmittel - y, ymittel - x, generateColor(counter++)));
                    /* SETPIXEL xmittel+y, ymittel-x */
-                   f.add(new Pixel(RED, GREEN, BLUE, xmittel + y, ymittel - x));
+                   f.add(new Pixel(xmittel + y, ymittel - x, generateColor(counter++)));
                 }
                 
                 rc.sendFrame(f);
+                counter = 1; /* reset -> static picture */
             }
         }
+    }
+
+    private static Color generateColor(int counter) {
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        int parts = (counter * STATIC_FACTOR) / MAX_COLOR_VALUE;
+        int last = (counter * STATIC_FACTOR) % MAX_COLOR_VALUE;
+        if (parts == 0) {
+            r = last;
+        }
+        if (parts > 0) {
+            r = MAX_COLOR_VALUE;
+            g = last;
+        }
+        if (parts > 1) {
+            g = MAX_COLOR_VALUE;
+            b = last;
+        }
+        Color c = new Color(r, g, b);
+        System.out.println(counter + "\t[" + (counter * STATIC_FACTOR) + "]\t" + c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+        return c;
     }
 
 }
