@@ -10,8 +10,28 @@ package de.c3ma.fullcircle.animation;
  */
 public abstract class GeneralEllipse {
 
-    public abstract void setPixel(int x, int y, int number);
+    /**
+     * Amount of elements in one quadrant (is automatically set before drawing the first pixel)
+     */
+    protected int mQuadrantAmount = 0;
+    
+    /**
+     * Variables describing an ellipse
+     */
+    protected int xm;
+    protected int ym;
+    protected int a;
+    protected int b; 
+    
+    protected abstract void setPixel(int x, int y, int number);
 
+    public GeneralEllipse(int xm, int ym, int a, int b) {
+        this.xm = xm;
+        this.ym = ym;
+        this.a = a;
+        this.b = b;
+    }
+    
     /**
      * 
      * @param xm
@@ -20,33 +40,28 @@ public abstract class GeneralEllipse {
      * @param b
      * @return amount of different elements
      */
-    public int countEllipseElements(int xm, int ym, int a, int b) {
-        return ellipse(xm, ym, a, b, true);
+    public int countElements() {
+        return ellipse(true);
     }
     
-    public void drawEllipse(int xm, int ym, int a, int b) {
-        ellipse(xm, ym, a, b, false);
+    public void drawEllipse() {
+        mQuadrantAmount = ellipse(true) / 4;
+        ellipse(false);
     }
 
-    private int ellipse(int xm, int ym, int a, int b, boolean silent) {
+    private int ellipse(boolean silent) {
         int dx = 0, dy = b; /* im I. Quadranten von links oben nach rechts unten */
         long a2 = a * a, b2 = b * b;
         long err = b2 - (2 * b - 1) * a2, e2; /* Fehler im 1. Schritt */
 
-        /* variables needed for the rainbow effect */
         int counter = 0;
-        int quadrantAmount = 0;
-        
-        if (!silent) {
-            quadrantAmount = ellipse(xm, ym, a, b, true) / 4;
-        }
-        
+                
         do {
             if (!silent) {
-                setPixel(xm + dx, ym + dy, (0 * quadrantAmount) + counter); /* I. Quadrant */
-                setPixel(xm - dx, ym + dy, (1 * quadrantAmount) + counter); /* II. Quadrant */
-                setPixel(xm - dx, ym - dy, (2 * quadrantAmount) + counter); /* III. Quadrant */
-                setPixel(xm + dx, ym - dy, (3 * quadrantAmount) + counter); /* IV. Quadrant */
+                setPixel(xm + dx, ym + dy, (0 * mQuadrantAmount) + counter); /* I. Quadrant */
+                setPixel(xm - dx, ym + dy, (1 * mQuadrantAmount) + counter); /* II. Quadrant */
+                setPixel(xm - dx, ym - dy, (2 * mQuadrantAmount) + counter); /* III. Quadrant */
+                setPixel(xm + dx, ym - dy, (3 * mQuadrantAmount) + counter); /* IV. Quadrant */
                 counter++;
             } else {
                 counter+=4;

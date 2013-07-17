@@ -12,23 +12,30 @@ import de.c3ma.fullcircle.animation.GeneralEllipse;
  */
 public class ConsoleEllipse extends GeneralEllipse {
 
+    public ConsoleEllipse(int xm, int ym, int a, int b) {
+        super(xm, ym, a, b);
+    }
+
     @Override
     public void setPixel(int x, int y, int number) {
         System.out.println(""+x+"x"+y+"\t"+number);
     }
 
     public static void main(String[] args) {
-        ConsoleEllipse ce = new ConsoleEllipse();
-        ce.drawEllipse(5, 5, 3, 3);
-        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 3, 3));
+        ConsoleEllipse ce = new ConsoleEllipse(5, 5, 3, 3);
+        ce.drawEllipse();
+        System.out.println("elemens=" + ce.countElements());
         
-        ce.drawEllipse(5, 5, 4, 4);
-        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 4, 4));
+        ce = new ConsoleEllipse(5, 5, 4, 4);
+        ce.drawEllipse();
+        System.out.println("elemens=" + ce.countElements());
         
-        ce.drawEllipse(5, 5, 5, 5);
-        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 5, 5));
+        ce = new ConsoleEllipse(5, 5, 5, 5);
+        ce.drawEllipse();
+        System.out.println("elemens=" + ce.countElements());
         
-        ce.drawEllipse(5, 5, 6, 6);
-        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 6, 6));
+        ce = new ConsoleEllipse(5, 5, 6, 6);
+        ce.drawEllipse();
+        System.out.println("elemens=" + ce.countElements());
     }
 }
