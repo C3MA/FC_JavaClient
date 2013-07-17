@@ -29,17 +29,25 @@ public abstract class SmothEllipse {
     }
 
     private int ellipse(int xm, int ym, int a, int b, boolean silent) {
-        int counter = 0;        
         int dx = 0, dy = b; /* im I. Quadranten von links oben nach rechts unten */
         long a2 = a * a, b2 = b * b;
         long err = b2 - (2 * b - 1) * a2, e2; /* Fehler im 1. Schritt */
+
+        /* variables needed for the rainbow effect */
+        int counter = 0;
+        int quadrantAmount = 0;
+        
+        if (!silent) {
+            quadrantAmount = ellipse(xm, ym, a, b, true) / 4;
+        }
         
         do {
             if (!silent) {
-                setPixel(xm + dx, ym + dy, counter++); /* I. Quadrant */
-                setPixel(xm - dx, ym + dy, counter++); /* II. Quadrant */
-                setPixel(xm - dx, ym - dy, counter++); /* III. Quadrant */
-                setPixel(xm + dx, ym - dy, counter++); /* IV. Quadrant */
+                setPixel(xm + dx, ym + dy, (0 * quadrantAmount) + counter); /* I. Quadrant */
+                setPixel(xm - dx, ym + dy, (1 * quadrantAmount) + counter); /* II. Quadrant */
+                setPixel(xm - dx, ym - dy, (2 * quadrantAmount) + counter); /* III. Quadrant */
+                setPixel(xm + dx, ym - dy, (3 * quadrantAmount) + counter); /* IV. Quadrant */
+                counter++;
             } else {
                 counter+=4;
             }

@@ -22,5 +22,13 @@ public class ConsoleEllipse extends SmothEllipse {
         ce.drawEllipse(5, 5, 3, 3);
         System.out.println("elemens=" + ce.countEllipseElements(5, 5, 3, 3));
         
+        ce.drawEllipse(5, 5, 4, 4);
+        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 4, 4));
+        
+        ce.drawEllipse(5, 5, 5, 5);
+        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 5, 5));
+        
+        ce.drawEllipse(5, 5, 6, 6);
+        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 6, 6));
     }
 }
