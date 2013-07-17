@@ -28,6 +28,7 @@ public class CircleClient {
     private static int mHeight;
     
     private static int TIMER_RESET = 6;
+    private static int CIRCE_CHANGE = 80;
 
     /**
      * @param args First argument MUST be the IP address of the host
@@ -63,6 +64,7 @@ public class CircleClient {
                     mHeight = ia.getHeight();
                     ymittel = mHeight / 2;
                     r = Math.min(xmittel, ymittel);
+                    r--; // start with a smaller circle
                     System.out.println("Draw cicle with center [" + xmittel + "x" + ymittel + "] and radius of " + r);
                     
                     /* when we got the resolution of the map, in this example we now want to start to send something */
@@ -79,7 +81,6 @@ public class CircleClient {
 
             // send something... NOW
             if (mSendFrames) {
-                
 
                 final Frame f = new Frame();
                 
@@ -92,9 +93,16 @@ public class CircleClient {
                     
                 }.drawEllipse(count);
                 
+                /* move the rainbow through the circle*/
                 if (timer <= 0) {
                     timer = TIMER_RESET;
                     count++;
+                    /* play around with the radius */
+                    if (count % CIRCE_CHANGE == 0) {
+                        r--;
+                    } else if (count % CIRCE_CHANGE == (CIRCE_CHANGE / 2)) {
+                        r++;
+                    }
                 }
                 timer--;
                 
