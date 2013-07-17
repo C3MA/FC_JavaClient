@@ -23,7 +23,7 @@ import de.c3ma.proto.fctypes.Timeout;
 public class CircleClient {
 
     private static final int MAX_COLOR_VALUE = 255;
-    private static final int STATIC_FACTOR = 47;
+    private static final int STATIC_FACTOR = 2;
     private static int RED = 255;
     private static int GREEN = 0;
     private static int BLUE = 0;
@@ -92,9 +92,11 @@ public class CircleClient {
                 x = r;
                 y = 0;
                 int fehler = r;
+                
                 /* "schnelle" Richtung ist hier y! */
+                System.out.println("================ (" + y + " / " + x + ")");
                 /* SETPIXEL xmittel + x, ymittel + y */
-                f.add(new Pixel(xmittel + x, ymittel + y, generateColor(counter++)));
+                f.add(new Pixel(xmittel + x, ymittel + y, generateColor(y, x, counter++)));
                 
                 /*Pixelschleife: immer ein Schritt in schnelle Richtung, hin und wieder auch einer in langsame*/
                 while(y < x) {
@@ -102,6 +104,7 @@ public class CircleClient {
                    dy = y*2+1; /* REM bei Assembler-Implementierung *2 per Shift */
                    y = y+1;
                    fehler = fehler-dy;
+                   System.out.println("================ (" + y + " / " + x + ")");
                    if (fehler<0 ) {
                       /* Schritt in langsame Richtung (hier negative x-Richtung) */
                       dx = 1-x*2; /* bei Assembler-Implementierung *2 per Shift */
@@ -109,24 +112,24 @@ public class CircleClient {
                       fehler = fehler-dx;
                    }
                    /* SETPIXEL xmittel + x, ymittel + y */
-                   f.add(new Pixel(xmittel + x, ymittel + y, generateColor(counter++)));
+                   f.add(new Pixel(xmittel + x, ymittel + y, generateColor(y, x, counter++)));
                    
                    /* Wenn es um einen Bildschirm und nicht mechanisches Plotten geht,
                     kann man die anderen Oktanten hier gleich mit abdecken: */
                    /*SETPIXEL xmittel-x, ymittel+y*/
-                   f.add(new Pixel(xmittel - x, ymittel + y, generateColor(counter++)));
+                   f.add(new Pixel(xmittel - x, ymittel + y, generateColor(y, x, counter++)));
                    /*SETPIXEL xmittel-x, ymittel-y*/
-                   f.add(new Pixel(xmittel - x, ymittel - y, generateColor(counter++)));
+                   f.add(new Pixel(xmittel - x, ymittel - y, generateColor(y, x, counter++)));
                    /*SETPIXEL xmittel+x, ymittel-y*/
-                   f.add(new Pixel(xmittel + x, ymittel - y, generateColor(counter++)));
+                   f.add(new Pixel(xmittel + x, ymittel - y, generateColor(y, x, counter++)));
                    /*SETPIXEL xmittel+y, ymittel+x*/
-                   f.add(new Pixel(xmittel + y, ymittel + x, generateColor(counter++)));
+                   f.add(new Pixel(xmittel + y, ymittel + x, generateColor(y, x, counter++)));
                    /* SETPIXEL xmittel-y, ymittel+x */
-                   f.add(new Pixel(xmittel - y, ymittel + x, generateColor(counter++)));
+                   f.add(new Pixel(xmittel - y, ymittel + x, generateColor(y, x, counter++)));
                    /* SETPIXEL xmittel-y, ymittel-x */
-                   f.add(new Pixel(xmittel - y, ymittel - x, generateColor(counter++)));
+                   f.add(new Pixel(xmittel - y, ymittel - x, generateColor(y, x, counter++)));
                    /* SETPIXEL xmittel+y, ymittel-x */
-                   f.add(new Pixel(xmittel + y, ymittel - x, generateColor(counter++)));
+                   f.add(new Pixel(xmittel + y, ymittel - x, generateColor(y, x, counter++)));
                 }
                 
                 rc.sendFrame(f);
@@ -135,10 +138,11 @@ public class CircleClient {
         }
     }
 
-    private static Color generateColor(int counter) {
+    private static Color generateColor(int drawingPos, int drawingParts, int counter) {
         int r = 0;
         int g = 0;
         int b = 0;
+        counter = (drawingParts - drawingPos) * counter;
         int parts = (counter * STATIC_FACTOR) / MAX_COLOR_VALUE;
         int last = (counter * STATIC_FACTOR) % MAX_COLOR_VALUE;
         if (parts == 0) {
@@ -153,7 +157,7 @@ public class CircleClient {
             b = last;
         }
         Color c = new Color(r, g, b);
-        System.out.println(counter + "\t[" + (counter * STATIC_FACTOR) + "]\t" + c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+        System.out.println(drawingPos + "," + drawingParts + "\t" + counter + "\t[" + (counter * STATIC_FACTOR) + "]\t" + c.getRed() + "," + c.getGreen() + "," + c.getBlue());
         return c;
     }
 
