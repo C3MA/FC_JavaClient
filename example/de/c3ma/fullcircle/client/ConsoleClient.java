@@ -30,7 +30,7 @@ public class ConsoleClient {
      * @throws InterruptedException 
      */
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-        RawClient rc = new RawClient("10.23.42.190");
+        RawClient rc = new RawClient(args[0]);
         
         rc.requestInformation();
         
