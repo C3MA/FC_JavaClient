@@ -6,6 +6,9 @@ package de.c3ma.fullcircle.animation;
  * project: FullcricleClient<br />
  * $Id: $<br />
  * 
+ * Source behind:
+ * http://de.wikipedia.org/wiki/Bresenham-Algorithmus
+ * 
  * @author ollo<br />
  */
 public abstract class GeneralEllipse {
