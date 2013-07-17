@@ -52,13 +52,15 @@ public abstract class RainbowEllipse extends GeneralEllipse {
             int_value -= 768;
             return new Color(0, 255 - int_value, 255);
         }
+    
     }
     
     protected abstract void drawPixel(int x, int y, Color c);
     
     @Override
     protected void setPixel(int x, int y, int number) {
-        drawPixel(x, y, mapRainbowColor(number, 0, this.mQuadrantAmount * 4));
+        int maxPixel = this.mQuadrantAmount * 4;
+        drawPixel(x, y, mapRainbowColor((this.mOffset + number) % maxPixel, 0, maxPixel));
     }
 
 }

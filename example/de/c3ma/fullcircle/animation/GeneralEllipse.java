@@ -21,10 +21,12 @@ public abstract class GeneralEllipse {
     /**
      * Variables describing an ellipse
      */
-    protected int xm;
-    protected int ym;
-    protected int a;
-    protected int b; 
+    private int xm;
+    private int ym;
+    private int a;
+    private int b;
+
+    protected int mOffset; 
     
     protected abstract void setPixel(int x, int y, int number);
 
@@ -50,6 +52,11 @@ public abstract class GeneralEllipse {
     public void drawEllipse() {
         mQuadrantAmount = ellipse(true) / 4;
         ellipse(false);
+    }
+
+    public void drawEllipse(int i) {
+        this.mOffset = i;
+        drawEllipse();
     }
 
     private int ellipse(boolean silent) {

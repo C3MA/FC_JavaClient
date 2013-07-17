@@ -40,6 +40,7 @@ public class CircleClient {
         
 
         int xmittel, ymittel, r;
+        int count = 0;
         
         xmittel = 1;
         ymittel = 1;
@@ -86,7 +87,7 @@ public class CircleClient {
                         f.add(new Pixel(x, y, c));                        
                     }
                     
-                }.drawEllipse();
+                }.drawEllipse(count++);
                 
                 
                 rc.sendFrame(f);
