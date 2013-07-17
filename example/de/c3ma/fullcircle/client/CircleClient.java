@@ -26,6 +26,8 @@ public class CircleClient {
     private static boolean mSendFrames = false;
     private static int mWidth;
     private static int mHeight;
+    
+    private static int TIMER_RESET = 6;
 
     /**
      * @param args First argument MUST be the IP address of the host
@@ -41,6 +43,7 @@ public class CircleClient {
 
         int xmittel, ymittel, r;
         int count = 0;
+        int timer = TIMER_RESET;
         
         xmittel = 1;
         ymittel = 1;
@@ -87,8 +90,13 @@ public class CircleClient {
                         f.add(new Pixel(x, y, c));                        
                     }
                     
-                }.drawEllipse(count++);
+                }.drawEllipse(count);
                 
+                if (timer <= 0) {
+                    timer = TIMER_RESET;
+                    count++;
+                }
+                timer--;
                 
                 rc.sendFrame(f);
             }
