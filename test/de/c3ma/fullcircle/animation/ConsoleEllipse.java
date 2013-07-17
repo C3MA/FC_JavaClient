@@ -19,6 +19,8 @@ public class ConsoleEllipse extends SmothEllipse {
 
     public static void main(String[] args) {
         ConsoleEllipse ce = new ConsoleEllipse();
-        ce.ellipse(8, 8, 8, 8);
+        ce.drawEllipse(5, 5, 3, 3);
+        System.out.println("elemens=" + ce.countEllipseElements(5, 5, 3, 3));
+        
     }
 }

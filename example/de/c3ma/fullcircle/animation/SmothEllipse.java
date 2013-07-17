@@ -12,18 +12,38 @@ public abstract class SmothEllipse {
 
     public abstract void setPixel(int x, int y, int number);
 
-    public void ellipse(int xm, int ym, int a, int b) {
-        int counter = 0;
+    /**
+     * 
+     * @param xm
+     * @param ym
+     * @param a
+     * @param b
+     * @return amount of different elements
+     */
+    public int countEllipseElements(int xm, int ym, int a, int b) {
+        return ellipse(xm, ym, a, b, true);
+    }
+    
+    public void drawEllipse(int xm, int ym, int a, int b) {
+        ellipse(xm, ym, a, b, false);
+    }
+
+    private int ellipse(int xm, int ym, int a, int b, boolean silent) {
+        int counter = 0;        
         int dx = 0, dy = b; /* im I. Quadranten von links oben nach rechts unten */
         long a2 = a * a, b2 = b * b;
         long err = b2 - (2 * b - 1) * a2, e2; /* Fehler im 1. Schritt */
-
+        
         do {
-            setPixel(xm + dx, ym + dy, (0*5) + counter); /* I. Quadrant */
-            setPixel(xm - dx, ym + dy, (1*5) + counter); /* II. Quadrant */
-            setPixel(xm - dx, ym - dy, (2*5) + counter); /* III. Quadrant */
-            setPixel(xm + dx, ym - dy, (3*5) + counter); /* IV. Quadrant */
-
+            if (!silent) {
+                setPixel(xm + dx, ym + dy, counter++); /* I. Quadrant */
+                setPixel(xm - dx, ym + dy, counter++); /* II. Quadrant */
+                setPixel(xm - dx, ym - dy, counter++); /* III. Quadrant */
+                setPixel(xm + dx, ym - dy, counter++); /* IV. Quadrant */
+            } else {
+                counter+=4;
+            }
+            
             e2 = 2 * err;
             if (e2 < (2 * dx + 1) * b2) {
                 dx++;
@@ -33,15 +53,23 @@ public abstract class SmothEllipse {
                 dy--;
                 err -= (2 * dy - 1) * a2;
             }
-            counter++;
+            
         } while (dy >= 0);
 
         while (dx++ < a) { /* fehlerhafter Abbruch bei flachen Ellipsen (b=1) */
-            setPixel(xm + dx, ym, counter++); /*
+            if (!silent) {
+                setPixel(xm + dx, ym, counter++); /*
                                                     * -> Spitze der Ellipse
                                                     * vollenden
                                                     */
-            setPixel(xm - dx, ym, counter++);
+                setPixel(xm - dx, ym, counter++);
+            } else {
+                counter += 2;
+            }
         }
+        return counter ;
     }
+    
+    
+    
 }
