@@ -8,7 +8,7 @@ package de.c3ma.fullcircle.animation;
  * 
  * @author ollo<br />
  */
-public abstract class SmothEllipse {
+public abstract class GeneralEllipse {
 
     public abstract void setPixel(int x, int y, int number);
 

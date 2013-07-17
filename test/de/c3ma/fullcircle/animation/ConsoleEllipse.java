@@ -1,6 +1,6 @@
 package de.c3ma.fullcircle.animation;
 
-import de.c3ma.fullcircle.animation.SmothEllipse;
+import de.c3ma.fullcircle.animation.GeneralEllipse;
 
 
 /**
@@ -10,7 +10,7 @@ import de.c3ma.fullcircle.animation.SmothEllipse;
  * $Id: $<br />
  * @author ollo<br />
  */
-public class ConsoleEllipse extends SmothEllipse {
+public class ConsoleEllipse extends GeneralEllipse {
 
     @Override
     public void setPixel(int x, int y, int number) {
