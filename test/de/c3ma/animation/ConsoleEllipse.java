@@ -1,6 +1,5 @@
-package de.c3ma.fullcircle.animation;
+package de.c3ma.animation;
 
-import de.c3ma.fullcircle.animation.GeneralEllipse;
 
 
 /**

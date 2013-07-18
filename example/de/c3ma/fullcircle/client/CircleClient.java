@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import de.c3ma.animation.RainbowEllipse;
 import de.c3ma.fullcircle.RawClient;
-import de.c3ma.fullcircle.animation.RainbowEllipse;
 import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;

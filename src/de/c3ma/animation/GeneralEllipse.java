@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle.animation;
+package de.c3ma.animation;
 
 /**
  * created at 17.07.2013 - 17:10:44<br />

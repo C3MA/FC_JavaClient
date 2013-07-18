@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle.animation;
+package de.c3ma.animation;
 
 import java.awt.Color;
 
