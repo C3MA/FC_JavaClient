@@ -1,5 +1,7 @@
 package de.c3ma.proto.fctypes;
 
+import java.io.IOException;
+
 import de.c3ma.proto.Proto;
 
 /**
@@ -9,7 +11,7 @@ import de.c3ma.proto.Proto;
  * $Id: $<br />
  * @author ollo<br />
  */
-public class Ping implements FullcircleTypes {
+public class Ping implements FullcircleTypes, FullcircleSerialize {
 
     private int counter = 0;
     
@@ -17,6 +19,16 @@ public class Ping implements FullcircleTypes {
         this.counter = counter;
     }
     
+    byte[] serialize() {
+        int offset = 0;
+        byte[] buffer = new byte[1024];
+     
+        offset = serializePing(buffer, 0, this.counter);
+        
+        byte[] ping = new byte[offset];
+        System.arraycopy(buffer, 0, ping, 0, offset);
+        return ping;
+    }
     
     /**
      * 
@@ -25,7 +37,7 @@ public class Ping implements FullcircleTypes {
      * @param counter value of the counter, to write
      * @return new offset in the buffer
      */
-    private static int serializePing(byte[] buffer, int offset, int counter) {
+    private int serializePing(byte[] buffer, int offset, int counter) {
         
         offset = Utils.addType(buffer, offset, SNIPTYPE_PING);
         
@@ -41,5 +53,12 @@ public class Ping implements FullcircleTypes {
         offset = Utils.addVariant(buffer, offset, PINGSNIP_COUNT, counter);
         
         return offset;
+    }
+
+
+    @Override
+    public void deserialize(byte[] bytecode, int actualOffset) throws IOException {
+        // TODO Auto-generated method stub
+        
     }
 }
