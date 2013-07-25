@@ -61,6 +61,13 @@ public class Frame implements FullcircleTypes {
     }
     
     /**
+     * Delete all already stored Pixel
+     */
+    public void clear() {
+        this.mPixels.clear();
+    }
+    
+    /**
      * Increments the given color information to an already existing Pixel
      * When there is no Pixel for the given position, this Pixel is added as a new one.
      * @param p color to add an a specific position
