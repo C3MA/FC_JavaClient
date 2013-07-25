@@ -60,6 +60,27 @@ public class Frame implements FullcircleTypes {
         this.mPixels.add(p);
     }
     
+    /**
+     * Increments the given color information to an already existing Pixel
+     * When there is no Pixel for the given position, this Pixel is added as a new one.
+     * @param p color to add an a specific position
+     * @return <code>true</code> a Pixel to add was found, <code>false</code> the Pixel was added as new one.
+     */
+    public boolean increment(Pixel p)
+    {
+        boolean found = false;
+        for (Pixel item : mPixels) {
+            if (item.samePosition(p)) {
+                item.increment(p);
+                return true;
+            }
+         }
+
+        /* This end is only reached when no pixel fits */
+        this.mPixels.add(p);
+        return false;
+    }
+    
     public byte[] serialize()
     {
         byte [] frame = serializeAllPixels();

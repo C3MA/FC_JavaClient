@@ -19,7 +19,7 @@ import de.c3ma.proto.fctypes.Timeout;
  * $Id: $<br />
  * @author ollo<br />
  */
-public class ConsoleClient {
+public class ConsoleFadeClient {
 
     private static boolean mSendFrames = false;
 
@@ -39,7 +39,11 @@ public class ConsoleClient {
         
         rc.requestInformation();
         
-        int counter = 0;
+        /* Define the Frame before the loop, to store the old frame (needed to increment) */
+        Frame f = new Frame();
+        
+        int xcenter = 0;
+        int ycenter = 0;
         
         while(true) {
             Thread.sleep(10);
@@ -48,8 +52,11 @@ public class ConsoleClient {
                 System.out.println(got);
                 if (got instanceof InfoAnswer) {
                     /* Extract the expected resolution and use these values for the request */
-                    Meta meta = ((InfoAnswer) got).getMeta();
-
+                    final InfoAnswer ia = (InfoAnswer) got;
+                    Meta meta = ia.getMeta();
+                    xcenter = ia.getWidth() / 2;
+                    ycenter = ia.getHeight() / 2;
+                    
                     /* when we got the resolution of the map, in this example we now want to start to send something */
                     rc.requestStart("java", 1, meta);    
                 } else if (got instanceof Start) {
@@ -64,9 +71,7 @@ public class ConsoleClient {
             
             // send something... NOW
             if (mSendFrames) {
-                Frame f = new Frame();
-                f.add(new Pixel(counter++, 0, 0, 0, 0));
-                counter = counter % 255;
+                f.increment(new Pixel(1, 0, 0, xcenter, ycenter));
                 rc.sendFrame(f);
             }
         }

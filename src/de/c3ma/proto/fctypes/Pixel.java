@@ -16,6 +16,9 @@ public class Pixel implements FullcircleTypes {
 
     private static final int RGBVALUE_HEADER_SIZES = 2;
     private static final int HEADER_LENGTH = 5;
+    
+    private static final int RGB_MAX_VALUE = 255;
+    
     private int red;
     private int green;
     private int blue;
@@ -84,5 +87,24 @@ public class Pixel implements FullcircleTypes {
         this.red = red;
         this.green = green;
         this.blue = blue;
+    }
+
+    /**
+     * Compare the coordinates
+     * @param p
+     * @return <code>true</code> the same position, <code>false</code> different positions
+     */
+    public boolean samePosition(Pixel p) {
+        return this.x == p.x && this.y == p.y;
+    }
+
+    /**
+     * Increment given the colors to this Pixel
+     * @param p
+     */
+    public void increment(Pixel p) {
+        this.red = Math.min(RGB_MAX_VALUE, this.red     + p.red);
+        this.green = Math.min(RGB_MAX_VALUE, this.green + p.green);
+        this.blue = Math.min(RGB_MAX_VALUE, this.blue   + p.blue);
     }
 }
