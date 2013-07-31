@@ -75,7 +75,6 @@ public class Frame implements FullcircleTypes {
      */
     public boolean increment(Pixel p)
     {
-        boolean found = false;
         for (Pixel item : mPixels) {
             if (item.samePosition(p)) {
                 item.increment(p);
