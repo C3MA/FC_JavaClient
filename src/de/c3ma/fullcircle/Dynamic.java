@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
+import de.c3ma.proto.fctypes.Abort;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
 import de.c3ma.proto.fctypes.Meta;
@@ -35,6 +36,7 @@ public class Dynamic {
     
     private long mLastmodification = 0;
 
+    private boolean mOverdraw = false;
     private BufferedImage mImage;
 
     private DynamicAutoUdpater mDynamicUpdater;
@@ -114,7 +116,8 @@ public class Dynamic {
      * @return Graphics, that could be modified
      */
     public Graphics getGraphics() {
-        mImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        if (!mOverdraw || mImage == null)
+            mImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         return mImage.getGraphics();
     }
     
@@ -160,10 +163,27 @@ public class Dynamic {
         }
     }
 
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+    
+    /**
+     * Deactivates or activates the cleaning of a sent frame before sending a new one. 
+     * @param overdrawing <code>true</code> the last image remains and will be used as background
+     * <code>false</code> always draw on a new image (the default)
+     */
+    public void setOverdraw(boolean overdrawing) {
+        this.mOverdraw = overdrawing;
+    }
+    
+
     void processNetwork() throws IOException {
         FullcircleSerialize got = client.readNetwork();
         if (got != null) {
-            System.out.println(got);
             if (got instanceof InfoAnswer) {
                 /* Extract the expected resolution and use these values for the request */
                 InfoAnswer ia = ((InfoAnswer) got);
@@ -177,8 +197,11 @@ public class Dynamic {
             } else if (got instanceof Timeout) {
                 System.out.println("Too slow, so we close the session");
                 client.close();
+            } else if (got instanceof Abort) {
+                System.out.println("The server wants us to leave");
+                client.close();
+                
             }
         }
     }
-    
 }

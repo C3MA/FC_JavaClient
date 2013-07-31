@@ -50,7 +50,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g, int width, int height) {
         if (frame_index > 6)
             frame_index = 0;
         // move a small rectangle from the upper left corner to the right lower one

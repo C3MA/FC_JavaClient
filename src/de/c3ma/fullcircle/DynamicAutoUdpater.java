@@ -52,7 +52,7 @@ public class DynamicAutoUdpater extends Thread {
                 if (mVisible) {
                     Graphics g = mDynamic.getGraphics();
                     synchronized (g) {
-                        mOnpaint.paint(g);
+                        mOnpaint.paint(g, mDynamic.getWidth(), mDynamic.getHeight());
                     } 
                     mDynamic.updateGraphics();
                 }

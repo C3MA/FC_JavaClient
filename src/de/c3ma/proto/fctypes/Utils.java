@@ -143,15 +143,17 @@ public class Utils implements FullcircleTypes {
             return new Start();
         case SNIPTYPE_TIMEOUT:
             return new Timeout();
+        case SNIPTYPE_ABORT:
+            return new Abort();
+        case SNIPTYPE_ACK:
+            return new Ack();
         /* TODO not handled parsing */
         case SNIPTYPE_PING:
         case SNIPTYPE_PONG:
         case SNIPTYPE_ERROR:
         case SNIPTYPE_REQUEST:
         case SNIPTYPE_FRAME:
-        case SNIPTYPE_ACK:
         case SNIPTYPE_NACK:
-        case SNIPTYPE_ABORT:
         case SNIPTYPE_EOS:
         case SNIPTYPE_INFOREQUEST:
         default:

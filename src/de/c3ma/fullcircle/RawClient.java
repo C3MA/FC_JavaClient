@@ -55,13 +55,11 @@ public class RawClient {
     public FullcircleSerialize readNetwork() throws IOException {
         InputStream netin = this.mSocket.getInputStream();
         if (netin.available() > 0) {
-            System.out.println("WE have data!");
             byte[] buffer = new byte[ Utils.HEADER_SIZE];
             netin.read(buffer , 0, 10);
             String text = new String(buffer).trim();
             try {
                 int payloadLength = Integer.parseInt(text);
-                System.out.println("Got " + payloadLength + " bytes of data");
                 // now read the payload
                 byte[] payload = new byte[payloadLength];
                 netin.read(payload);
@@ -101,6 +99,11 @@ public class RawClient {
         netout.flush();
     }
 
+    /**
+     * Convert a given image into a fullcircle image for protobuf
+     * @param image
+     * @throws IOException
+     */
     public void sendFrame(BufferedImage image) throws IOException {
       Frame f = new Frame();  
       for(int y=0; y < image.getHeight(null); y++) {
