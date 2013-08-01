@@ -1,5 +1,6 @@
 package de.c3ma.fullcircle;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,9 +8,11 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
 import de.c3ma.proto.fctypes.Abort;
+import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
 import de.c3ma.proto.fctypes.Meta;
+import de.c3ma.proto.fctypes.Pixel;
 import de.c3ma.proto.fctypes.Start;
 import de.c3ma.proto.fctypes.Timeout;
 
@@ -150,7 +153,7 @@ public class Dynamic {
             throw new TimeoutException();
         }
         
-        client.sendFrame(image);
+        sendFrame(client, image);
         
         mLastmodification = System.currentTimeMillis();
     }
@@ -203,5 +206,26 @@ public class Dynamic {
                 
             }
         }
+    }
+
+    /**
+     * Convert a given image into a fullcircle image for protobuf
+     * @param image
+     * @throws IOException
+     */
+    public static void sendFrame(RawClient client, BufferedImage image) throws IOException {
+      Frame f = new Frame();  
+      for(int y=0; y < image.getHeight(null); y++) {
+          for(int x=0; x < image.getWidth(); x++) {
+              Color c = new Color(image.getRGB(x, y));
+//              System.out.print(", " 
+//                      + String.format("%02X", c.getRed())
+//                      + String.format("%02X", c.getGreen())
+//                      + String.format("%02X", c.getBlue()));
+              f.add(new Pixel(c.getRed(), c.getGreen(), c.getBlue(), x, y));
+          }
+//          System.out.println();
+      }
+      client.sendFrame(f);  
     }
 }

@@ -111,11 +111,13 @@ public class FullcircleClient {
             return false;
         
         try {
-            client.sendFrame(image);
+            Dynamic.sendFrame(client, image);
             return true;
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
         return false;
     }
     

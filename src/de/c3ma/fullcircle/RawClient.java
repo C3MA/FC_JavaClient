@@ -1,7 +1,5 @@
 package de.c3ma.fullcircle;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,7 +10,6 @@ import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoRequest;
 import de.c3ma.proto.fctypes.Meta;
-import de.c3ma.proto.fctypes.Pixel;
 import de.c3ma.proto.fctypes.Request;
 import de.c3ma.proto.fctypes.Utils;
 
@@ -97,27 +94,6 @@ public class RawClient {
         OutputStream netout = this.mSocket.getOutputStream();
         netout.write(Utils.prefixHeader(frame.serialize()));
         netout.flush();
-    }
-
-    /**
-     * Convert a given image into a fullcircle image for protobuf
-     * @param image
-     * @throws IOException
-     */
-    public void sendFrame(BufferedImage image) throws IOException {
-      Frame f = new Frame();  
-      for(int y=0; y < image.getHeight(null); y++) {
-          for(int x=0; x < image.getWidth(); x++) {
-              Color c = new Color(image.getRGB(x, y));
-//              System.out.print(", " 
-//                      + String.format("%02X", c.getRed())
-//                      + String.format("%02X", c.getGreen())
-//                      + String.format("%02X", c.getBlue()));
-              f.add(new Pixel(c.getRed(), c.getGreen(), c.getBlue(), x, y));
-          }
-//          System.out.println();
-      }
-      sendFrame(f);  
     }
     
 }

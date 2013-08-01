@@ -163,7 +163,7 @@ public abstract class DynamicFrame {
             throw new TimeoutException();
         }
         
-        client.sendFrame(image);
+        Dynamic.sendFrame(client, image);
         
         mLastmodification = System.currentTimeMillis();
     }
