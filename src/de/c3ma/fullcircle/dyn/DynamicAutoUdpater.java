@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle;
+package de.c3ma.fullcircle.dyn;
 
 import java.awt.Graphics;
 import java.io.IOException;

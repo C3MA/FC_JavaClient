@@ -1,6 +1,6 @@
 package de.c3ma.animation;
 
-import java.awt.Color;
+import de.c3ma.types.SimpleColor;
 
 /**
  * created at 17.07.2013 - 18:30:27<br />
@@ -23,7 +23,7 @@ public abstract class RainbowEllipse extends GeneralEllipse {
      * @param blue_value    default flavor of blue
      * @return used color
      */
-    private Color mapRainbowColor(float value, float red_value, float blue_value)
+    private SimpleColor mapRainbowColor(float value, float red_value, float blue_value)
     {
         // Convert into a value between 0 and 1023.
         int int_value = (int)(1023 * (value - red_value) / (blue_value - red_value));
@@ -32,30 +32,30 @@ public abstract class RainbowEllipse extends GeneralEllipse {
         if (int_value < 256)
         {
             // Red to yellow. (255, 0, 0) to (255, 255, 0).
-            return new Color(255, int_value, 0);
+            return new SimpleColor(255, int_value, 0);
         }
         else if (int_value < 512)
         {
             // Yellow to green. (255, 255, 0) to (0, 255, 0).
             int_value -= 256;
-            return new Color(255 - int_value, 255, 0);
+            return new SimpleColor(255 - int_value, 255, 0);
         }
         else if (int_value < 768)
         {
             // Green to aqua. (0, 255, 0) to (0, 255, 255).
             int_value -= 512;
-            return new Color(0, 255, int_value);
+            return new SimpleColor(0, 255, int_value);
         }
         else
         {
             // Aqua to blue. (0, 255, 255) to (0, 0, 255).
             int_value -= 768;
-            return new Color(0, 255 - int_value, 255);
+            return new SimpleColor(0, 255 - int_value, 255);
         }
     
     }
     
-    protected abstract void drawPixel(int x, int y, Color c);
+    protected abstract void drawPixel(int x, int y, SimpleColor c);
     
     @Override
     protected void setPixel(int x, int y, int number) {

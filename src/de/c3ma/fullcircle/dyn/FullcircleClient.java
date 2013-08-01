@@ -1,9 +1,10 @@
-package de.c3ma.fullcircle;
+package de.c3ma.fullcircle.dyn;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import de.c3ma.fullcircle.RawClient;
 import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;

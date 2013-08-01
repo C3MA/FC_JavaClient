@@ -1,6 +1,6 @@
 package de.c3ma.animation;
 
-import java.awt.Color;
+import de.c3ma.types.SimpleColor;
 
 /**
  * created at 17.07.2013 - 18:47:42<br />
@@ -16,7 +16,7 @@ public class ConsoleRainbowEllipse extends RainbowEllipse {
     }
 
     @Override
-    protected void drawPixel(int x, int y, Color c) {
+    protected void drawPixel(int x, int y, SimpleColor c) {
         System.out.println(x + "x" + y + "\t" + c);
     }
 

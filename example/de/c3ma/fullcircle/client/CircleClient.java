@@ -1,6 +1,5 @@
 package de.c3ma.fullcircle.client;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -13,6 +12,7 @@ import de.c3ma.proto.fctypes.Meta;
 import de.c3ma.proto.fctypes.Pixel;
 import de.c3ma.proto.fctypes.Start;
 import de.c3ma.proto.fctypes.Timeout;
+import de.c3ma.types.SimpleColor;
 
 /**
  * created at 14.07.2013 - 16:30:23<br />
@@ -87,8 +87,8 @@ public class CircleClient {
                 new RainbowEllipse(xmittel, ymittel, r, r) {
 
                     @Override
-                    protected void drawPixel(int x, int y, Color c) {
-                        f.add(new Pixel(x, y, c));                        
+                    protected void drawPixel(int x, int y, SimpleColor c) {
+                        f.add(new Pixel(x, y, c));
                     }
                     
                 }.drawEllipse(count);

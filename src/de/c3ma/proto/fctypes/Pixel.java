@@ -1,8 +1,8 @@
 package de.c3ma.proto.fctypes;
 
-import java.awt.Color;
 
 import de.c3ma.proto.Proto;
+import de.c3ma.types.SimpleColor;
 
 /**
  * created at 11.04.2013 - 18:28:32<br />
@@ -33,7 +33,7 @@ public class Pixel implements FullcircleTypes {
         this.y = y;
     }
     
-    public Pixel(int x, int y, Color c) {
+    public Pixel(int x, int y, SimpleColor c) {
         this.red = c.getRed();
         this.green = c.getGreen();
         this.blue = c.getBlue();

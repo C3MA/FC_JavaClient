@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle;
+package de.c3ma.fullcircle.dyn;
 
 import static org.junit.Assert.fail;
 
@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
+
+import de.c3ma.fullcircle.dyn.Dynamic;
 
 
 /**

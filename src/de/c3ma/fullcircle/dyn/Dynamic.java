@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle;
+package de.c3ma.fullcircle.dyn;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
+import de.c3ma.fullcircle.RawClient;
 import de.c3ma.proto.fctypes.Abort;
 import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;

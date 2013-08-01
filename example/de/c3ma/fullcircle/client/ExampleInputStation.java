@@ -8,8 +8,8 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import de.c3ma.fullcircle.Dynamic;
-import de.c3ma.fullcircle.OnFullcirclePaint;
+import de.c3ma.fullcircle.dyn.Dynamic;
+import de.c3ma.fullcircle.dyn.OnFullcirclePaint;
 
 /**
  * created at 22.10.2012 - 22:06:12<br />

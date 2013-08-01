@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.event.MouseInputListener;
 
-import de.c3ma.fullcircle.Dynamic;
-import de.c3ma.fullcircle.OnFullcirclePaint;
+import de.c3ma.fullcircle.dyn.Dynamic;
+import de.c3ma.fullcircle.dyn.OnFullcirclePaint;
 
 /**
  * created at 31.07.2013 - 18:06:12<br />
