@@ -147,17 +147,18 @@ public class Utils implements FullcircleTypes {
             return new Abort();
         case SNIPTYPE_ACK:
             return new Ack();
+        case SNIPTYPE_ERROR:
+            return new ErrorType();
         /* TODO not handled parsing */
         case SNIPTYPE_PING:
         case SNIPTYPE_PONG:
-        case SNIPTYPE_ERROR:
         case SNIPTYPE_REQUEST:
         case SNIPTYPE_FRAME:
         case SNIPTYPE_NACK:
         case SNIPTYPE_EOS:
         case SNIPTYPE_INFOREQUEST:
         default:
-            System.err.println("Number is " + sniptype);
+            System.err.println("Unhandled FcNumber : " + sniptype);
             break;
         }
         return null;
