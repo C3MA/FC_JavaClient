@@ -9,9 +9,11 @@ package de.c3ma.types;
  */
 public class SimpleColor {
 
+    private static final int MAX_VALUE = 255;
+    
     private int red;
     public int getRed() {
-        return red;
+        return Math.min(MAX_VALUE, Math.abs(red));
     }
 
     public void setRed(int red) {
@@ -19,7 +21,7 @@ public class SimpleColor {
     }
 
     public int getGreen() {
-        return green;
+        return Math.min(MAX_VALUE, Math.abs(green));
     }
 
     public void setGreen(int green) {
@@ -27,7 +29,7 @@ public class SimpleColor {
     }
 
     public int getBlue() {
-        return blue;
+        return Math.min(MAX_VALUE, Math.abs(blue));
     }
 
     public void setBlue(int blue) {
@@ -51,7 +53,7 @@ public class SimpleColor {
 
     @Override
     public String toString() {
-        return "" + red + "," + green + "," + blue;
+        return "" + getRed() + "," + getGreen() + "," + getBlue();
     }
     
 }
