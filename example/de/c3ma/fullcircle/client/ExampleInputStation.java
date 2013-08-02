@@ -37,6 +37,8 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
     
     private static final int SIZE = 2;
     
+    private static final int STEPS = 5;
+    
 
     public ExampleInputStation(String[] args) throws IOException {
         // some default stuff, that is needed to show a window and handle Button reaction.
@@ -76,7 +78,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
         if(hit)
         {
         	g.setColor(Color.orange);
-        	new RainbowEllipse(width/2, height/2, width/2, height/2) {
+        	new RainbowEllipse(width/2, height/2, Math.min(width/2,x_stat), Math.min(height/2,x_stat)) {
 
                 @Override
                 protected void drawPixel(int x, int y, SimpleColor c) {
@@ -85,7 +87,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
                     g.fillRect(x, y, 1, 1);
                 }
                 
-            }.drawEllipse(count++);
+            }.drawEllipse(count+=(x_stat*255+stat)/(STEPS*100));
         }
         else
         {
@@ -96,7 +98,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
         g.fillRect(x_pos, y_pos, SIZE, SIZE);
         g.setColor(Color.red);
         g.fillRect(x_enemy, y_enemy, 1, 1);
-        stat+=5;
+        stat+=STEPS;
         if(stat>=255){
         	stat=0;
         	x_stat++; 
