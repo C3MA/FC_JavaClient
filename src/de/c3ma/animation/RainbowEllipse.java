@@ -23,7 +23,7 @@ public abstract class RainbowEllipse extends GeneralEllipse {
      * @param blue_value    default flavor of blue
      * @return used color
      */
-    private SimpleColor mapRainbowColor(float value, float red_value, float blue_value)
+    public static SimpleColor mapRainbowColor(float value, float red_value, float blue_value)
     {
         // Convert into a value between 0 and 1023.
         int int_value = (int)(1023 * (value - red_value) / (blue_value - red_value));
