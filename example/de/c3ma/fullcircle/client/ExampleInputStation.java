@@ -1,10 +1,12 @@
 package de.c3ma.fullcircle.client;
 
+import java.awt.Color;
 import java.awt.Event;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -18,6 +20,7 @@ import de.c3ma.fullcircle.dyn.OnFullcirclePaint;
  * $Id: $<br />
  * @author ollo<br />
  */
+
 public class ExampleInputStation extends JFrame implements OnFullcirclePaint, KeyListener {
 
     
@@ -27,6 +30,11 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
     private static final long serialVersionUID = 191520503239122366L;
     
     private int frame_index = 0;
+    
+    private int x_pos, y_pos, x_enemy, y_enemy, height, width;
+    
+    private static final int SIZE = 2;
+    
 
     public ExampleInputStation(String[] args) throws IOException {
         // some default stuff, that is needed to show a window and handle Button reaction.
@@ -51,11 +59,29 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
 
     @Override
     public void paint(Graphics g, int width, int height) {
-        if (frame_index > 6)
+    	if(this.height==0 && this.width==0){
+    		this.height = height;
+        	this.width = width;
+        	this.x_pos = width/2;
+        	this.y_pos = height-SIZE;
+        	this.y_enemy = height+1;
+    	}
             frame_index = 0;
-        // move a small rectangle from the upper left corner to the right lower one
-        g.fillRect(frame_index, frame_index, 2, 2);
-        frame_index++;
+        
+        
+        boolean hit = this.enemy_pos();
+        if(hit)
+        {
+        	g.setColor(Color.orange);
+        	g.fillRect(0,0,width,height);
+        }
+        else
+        {
+        g.setColor(Color.blue);
+        g.fillRect(x_pos, y_pos, SIZE, SIZE);
+        g.setColor(Color.red);
+        g.fillRect(x_enemy, y_enemy, 1, 1);
+        }
     } 
 
     @Override
@@ -64,21 +90,46 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
         if (e.getKeyCode() == KeyEvent.VK_UP)
         {
             System.out.println("UP");
+            y_pos--;
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN)
         {
             System.out.println("DOWN");
+            y_pos++;
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT)
         {
             System.out.println("LEFT");
+            x_pos--;
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
         {
             System.out.println("RIGHT");
-        } else {
+            x_pos++;
+        } 
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE)
+        {
+        	y_enemy=height+1;
+        }
+        else {
             System.out.println("KEY : " + e.getID() + " [expected=" + Event.KEY_ACTION + "] "+ e.getKeyCode());
         }
+    }
+    
+    private boolean enemy_pos()
+    {
+    	if(y_enemy > this.height)
+    	{
+    		y_enemy=0;
+    		Random rand = new Random();
+    		x_enemy= rand.nextInt(width);
+    	}
+    	else
+    	{
+    		if(this.x_enemy >= this.x_pos && this.x_enemy < this.x_pos+SIZE && this.y_enemy == this.y_pos) return true;
+    		this.y_enemy++;
+    	}
+    	return false;
     }
 
     @Override
