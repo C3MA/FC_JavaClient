@@ -99,7 +99,7 @@ public class ExampleInputStation extends JFrame implements OnFullcirclePaint, Ke
         stat+=5;
         if(stat>=255){
         	stat=0;
-        	x_stat++;
+        	x_stat++; 
         }
         }
     } 
