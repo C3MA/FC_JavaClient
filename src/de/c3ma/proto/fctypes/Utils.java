@@ -148,7 +148,7 @@ public class Utils implements FullcircleTypes {
         case SNIPTYPE_ACK:
             return new Ack();
         case SNIPTYPE_ERROR:
-            return new ErrorType();
+            //return new ErrorType();
         /* TODO not handled parsing */
         case SNIPTYPE_PING:
         case SNIPTYPE_PONG:
