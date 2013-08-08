@@ -5,11 +5,12 @@ import java.awt.Graphics;
 import java.io.IOException;
 import java.util.Random;
 
-import org.jsfml.window.event.JoystickButtonEvent;
-
 import de.c3ma.animation.RainbowEllipse;
 import de.c3ma.fullcircle.dyn.Dynamic;
 import de.c3ma.fullcircle.dyn.OnFullcirclePaint;
+import de.c3ma.joystick.CustomJsButtonEvent;
+import de.c3ma.joystick.JoystickButtonEventListener;
+import de.c3ma.joystick.JoystickButtonEventSource;
 import de.c3ma.types.SimpleColor;
 
 /**
@@ -30,13 +31,19 @@ public class ExampleInputStation implements OnFullcirclePaint,
 
 	private int count;
 
+	// Anfangsgröße unserer Hitbox. Wird spaeter im Spiel immer groesser
 	private static int size = 1;
 
+	// Schrittweise für Fortschrittsbalken
 	private static final int STEPS = 5;
 
+	// hit prueft ob hitbox durch enemy getroffen
+	// shield zeigt an ob ein Schild aktiv ist
+	// godmode bedarf keiner Erklaerung ;-)
 	private boolean hit, shield, godmode;
 
 	public ExampleInputStation(String[] args) throws IOException {
+		
 		JoystickButtonEventSource jbe = new JoystickButtonEventSource();
 		jbe.addEventListener(this);
 		// now create the connection to the wall
@@ -145,16 +152,10 @@ public class ExampleInputStation implements OnFullcirclePaint,
 
 	@Override
 	public void handleJoystickButtonEvent(CustomJsButtonEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("test");
-		JoystickButtonEvent jbe = (JoystickButtonEvent) e.getSource();
-		/*
-		 * if (e.type == Event.Type.JOYSTICK_BUTTON_PRESSED) {
-		 * JoystickButtonEvent jbe = (JoystickButtonEvent) event;
-		 */
-		System.out.println(jbe.button + "\t" + jbe.type);
+		
 
-		// }
+		System.out.println(e.getButton());
+		
 
 		if (e.getButton() == CustomJsButtonEvent.UP) {
 			System.out.println("UP");
@@ -230,12 +231,20 @@ public class ExampleInputStation implements OnFullcirclePaint,
 
 	}
 
+	/**
+	 * Generiert je nach Fortschritt einen Gegner auf der Wand
+	 * wenn Fortschritt < width/2 erzeuge Gegner am oben Rand
+	 * andernfalls wird Random eine Startposition gewaehlt und die Schrittweite für den enemy gesetzt
+	 * @return getroffen oder nicht
+	 */
 	private boolean enemy_pos() {
 		if (y_enemy > this.height || x_enemy > this.width || y_enemy < 1
 				|| x_enemy < 0) {
 			Random rand = new Random();
+			
 			if (x_stat < width / 2)
 				enemy_start = 0;
+			// 
 			else
 				enemy_start = rand.nextInt(4);
 			switch (enemy_start) {
@@ -266,6 +275,7 @@ public class ExampleInputStation implements OnFullcirclePaint,
 			}
 
 		} else {
+			// wenn der enemy uns innerhalb der Hitbox trifft gib true zurueck
 			if (this.x_enemy >= this.x_pos && this.x_enemy < this.x_pos + size
 					&& this.y_enemy >= this.y_pos
 					&& this.y_enemy < this.y_pos + size)
@@ -276,6 +286,11 @@ public class ExampleInputStation implements OnFullcirclePaint,
 		return false;
 	}
 
+	/**
+	 * Generiert zufaellig auf der Wand einen Schild der vorgegebenen Zeit eingesammelt werden kann.
+	 * gelingt dies so wird true zurueckgegeben andernfalls false
+	 * @return Schild aktiv oder nicht
+	 */
 	private boolean shield_pos() {
 		if (x_stat == width / 2) {
 			if (x_shield == -1 && y_shield == -1 && last_shield != size) {
@@ -304,6 +319,9 @@ public class ExampleInputStation implements OnFullcirclePaint,
 			return false;
 	}
 
+	/**
+	 * setzt den Schild zurueck
+	 */
 	public void resetShield() {
 		x_shield = -1;
 		y_shield = -1;

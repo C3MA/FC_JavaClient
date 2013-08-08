@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle.client;
+package de.c3ma.joystick;
 
 
 public interface JoystickButtonEventListener {
