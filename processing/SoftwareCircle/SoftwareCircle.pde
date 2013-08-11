@@ -217,6 +217,15 @@ int magic(int number) {
 void sendFrame() {
   int height = fc.getHeight();
   int radius = Math.min(fc.getHeight(), fc.getWidth());
+  
+  /* clean */
+  for(int x=0; x < fc.getWidth(); x++)
+  {
+    for(int y=0; y < fc.getWidth(); y++)
+    {
+      fc.updatePixel(0,0,0, x, y);
+    }
+  }
   radius = radius / 2;
   
   // tiny check
@@ -225,7 +234,7 @@ void sendFrame() {
   
   println("width " + fc.getWidth() + ", height = " + fc.getHeight() + ", radius = " + radius);
 
-  int loud = Math.min(radius, output[0] / 100);
+  int loud = Math.min(radius, output[0] / 50);
   loud = Math.max(1, loud);
 
   final int louder = output[1];
@@ -233,15 +242,13 @@ void sendFrame() {
     println("Loud = " +loud + ", louder " + louder + ", count " + count);
 //  for(int i=0; i < fc.getWidth(); i++) {
    RainbowEllipse re = new RainbowEllipse(radius, radius, loud, loud) {
-      
             protected void drawPixel(int x, int y, SimpleColor c) {
-                fc.updatePixel(Math.min(255, c.getRed() * louder), 
-                        Math.min(255, c.getGreen() * louder), 
-                        Math.min(255, c.getBlue() * louder), x, y); 
+                fc.updatePixel(Math.min(255, c.getRed() ), 
+                        Math.min(255, c.getGreen() ), 
+                        Math.min(255, c.getBlue() ), x, y); 
             }
-            
         };
-     re.drawEllipse(count);
+     re.drawEllipse(1);
   fc.sendFrame();
 }
 
