@@ -1,4 +1,4 @@
-package de.c3ma.fullcircle.client;
+package de.c3ma.joystick;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,6 +8,7 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.JoystickButtonEvent;
+
 
 public class JoystickButtonEventSource {
 
@@ -53,6 +54,13 @@ public class JoystickButtonEventSource {
 						JoystickButtonEvent jbe = (JoystickButtonEvent) event;
 						System.out.println(jbe.button + "\t" + jbe.type);
 						CustomJsButtonEvent customEvent = new CustomJsButtonEvent(jbe, jbe.button);
+						fireEvent(customEvent);
+					}
+					else if(event.type == Event.Type.KEY_PRESSED) {
+						org.jsfml.window.event.KeyEvent kv = event.asKeyEvent();
+											
+						int ktj_button = KeyToJoystick.transform(kv.key.name());
+						CustomJsButtonEvent customEvent = new CustomJsButtonEvent(event,ktj_button);
 						fireEvent(customEvent);
 					}
 				}
