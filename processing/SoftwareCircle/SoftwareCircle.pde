@@ -6,7 +6,9 @@
  */
 
 import processing.net.*; 
-import de.c3ma.fullcircle.*;
+import de.c3ma.fullcircle.dyn.*;
+import de.c3ma.types.SimpleColor;
+import de.c3ma.animation.*;
 
 import ddf.minim.analysis.*;
 import ddf.minim.*;
@@ -214,55 +216,32 @@ int magic(int number) {
 
 void sendFrame() {
   int height = fc.getHeight();
-  int value = 0;
+  int radius = Math.min(fc.getHeight(), fc.getWidth());
+  radius = radius / 2;
   
-    /*
-     * Output:
-     * 0 - 25    1th row
-     * 25 - 50   2th row
-     * 50 - 75   3th row
-     * 75 - 100  4th row
-     * 100 - 125 5th row
-     * 125 - 150 6th row
-     * and so on
-     */
-  final int BOX_AMPLITUDE_WITDH = 25;
-  int[] amplitudeSpreading = new int[] { 0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250};
+  // tiny check
+  if (output.length < 3)
+    return;
   
-  for(int i=0; i < fc.getWidth(); i++) {
-    for(int row = 0; row < amplitudeSpreading.length; row++)
-    {
-      if (height <= row)
-        continue;
+  println("width " + fc.getWidth() + ", height = " + fc.getHeight() + ", radius = " + radius);
+
+  int loud = Math.min(radius, output[0] / 100);
+  loud = Math.max(1, loud);
+
+  final int louder = output[1];
+  int count = output[2];
+    println("Loud = " +loud + ", louder " + louder + ", count " + count);
+//  for(int i=0; i < fc.getWidth(); i++) {
+   RainbowEllipse re = new RainbowEllipse(radius, radius, loud, loud) {
       
-      int diff = output[i] - amplitudeSpreading[row];
-      if (diff > BOX_AMPLITUDE_WITDH) {
-        value = 255; /* use the maximum value */
-      } else if (diff <= 0) {
-          /* clear the value! */
-          value = 0;
-      } else {
-        value = (diff % BOX_AMPLITUDE_WITDH) * 10;
-      }
-      
-      switch(row) {
-        case 6:
-        case 7:
-        case 8:
-          /* upper level is yellow */
-          fc.updatePixel(value, value, 0, i, height - (row + 1));
-          break;
-        case 9:
-          /* toprow is red */
-          fc.updatePixel(value, 0, 0, i, height - (row + 1));
-          break;
-        default:
-          /* default is greeen */
-           fc.updatePixel(0, value, 0, i, height - (row + 1));
-           break;
-      }
-    }
-  }
+            protected void drawPixel(int x, int y, SimpleColor c) {
+                fc.updatePixel(Math.min(255, c.getRed() * louder), 
+                        Math.min(255, c.getGreen() * louder), 
+                        Math.min(255, c.getBlue() * louder), x, y); 
+            }
+            
+        };
+     re.drawEllipse(count);
   fc.sendFrame();
 }
 

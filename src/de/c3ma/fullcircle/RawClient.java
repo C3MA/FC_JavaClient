@@ -22,6 +22,7 @@ import de.c3ma.proto.fctypes.Utils;
  */
 public class RawClient {
     
+    private static final int PORT = 24567;
     private Socket mSocket;
 
     /**
@@ -31,7 +32,7 @@ public class RawClient {
      * @throws UnknownHostException 
      */
     public RawClient(final String host) throws UnknownHostException, IOException {
-        this.mSocket = new Socket( host, 24567 );
+        this.mSocket = new Socket( host, PORT );
     }
     
     /**
