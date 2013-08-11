@@ -214,6 +214,8 @@ int magic(int number) {
   return (int) (255.0 * number); //TODO No Magic no longer
 }
 
+int globalCounter=0;
+
 void sendFrame() {
   int height = fc.getHeight();
   int radius = Math.min(fc.getHeight(), fc.getWidth());
@@ -232,23 +234,20 @@ void sendFrame() {
   if (output.length < 3)
     return;
   
-  println("width " + fc.getWidth() + ", height = " + fc.getHeight() + ", radius = " + radius);
-
   int loud = Math.min(radius, output[0] / 50);
   loud = Math.max(1, loud);
 
   final int louder = output[1];
-  int count = output[2];
-    println("Loud = " +loud + ", louder " + louder + ", count " + count);
-//  for(int i=0; i < fc.getWidth(); i++) {
-   RainbowEllipse re = new RainbowEllipse(radius, radius, loud, loud) {
+  globalCounter += output[fc.getWidth()/2] / 10;
+  
+  RainbowEllipse re = new RainbowEllipse(radius, radius, loud, loud) {
             protected void drawPixel(int x, int y, SimpleColor c) {
                 fc.updatePixel(Math.min(255, c.getRed() ), 
                         Math.min(255, c.getGreen() ), 
                         Math.min(255, c.getBlue() ), x, y); 
             }
         };
-     re.drawEllipse(1);
+     re.drawEllipse(globalCounter);
   fc.sendFrame();
 }
 
