@@ -29,6 +29,8 @@ FullcircleClient fc = new FullcircleClient();
 String fullcircle_host = "";
 
 int micFactor = 100;
+int rotationFactor = 100;
+int radiusFactor = 100;
 
 boolean slomotion = false;
 
@@ -73,6 +75,8 @@ void setup()
   controlP5.addToggle("slomotion", false, 700, startVisualisationY + 60, 80, 20);
   controlP5.addSlider("micFactor",1,100,50,10,startVisualisationY + 60,300,10);
   controlP5.addTextfield("fullcircle_host",10,startVisualisationY + 10,400,20);
+  controlP5.addSlider("radiusFactor",1,100,50,10,startVisualisationY + 80,300,10);
+  controlP5.addSlider("rotationFactor",1,100,50,10,startVisualisationY + 100,300,10);
 }
 
 /**
@@ -234,12 +238,11 @@ void sendFrame() {
   if (output.length < 3)
     return;
   
-  int loud = Math.min(radius, output[0] / 50);
+  int loud = Math.min(radius, output[0] / radiusFactor);
   loud = Math.max(1, loud);
 
   final int louder = output[1];
-  globalCounter += output[fc.getWidth()/2] / 10;
-  
+  globalCounter += output[fc.getWidth()/2] / rotationFactor;
   RainbowEllipse re = new RainbowEllipse(radius, radius, loud, loud) {
             protected void drawPixel(int x, int y, SimpleColor c) {
                 fc.updatePixel(Math.min(255, c.getRed() ), 
@@ -247,7 +250,7 @@ void sendFrame() {
                         Math.min(255, c.getBlue() ), x, y); 
             }
         };
-     re.drawEllipse(globalCounter);
+  re.drawEllipse(globalCounter);
   fc.sendFrame();
 }
 
