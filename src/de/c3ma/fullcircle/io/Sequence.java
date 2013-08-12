@@ -67,7 +67,8 @@ public class Sequence implements FullcircleTypes {
             return new byte[0];
         Frame f = frames.get(0);
         byte[] frame = f.serializeBinaryFrame();
-        byte[] tmpBuffer = new byte[frame.length * frames.size() + BUFFER_SPACE];
+        /*FIXME calculate the maximum possible image size */
+        byte[] tmpBuffer = new byte[f.calcMaxSize() * frames.size() + BUFFER_SPACE]; 
 
         int offset = 0;
         

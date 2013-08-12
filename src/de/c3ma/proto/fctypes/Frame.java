@@ -186,5 +186,9 @@ public class Frame implements FullcircleTypes {
         sb.append("}");
         return sb.toString();
     }
+
+    public int calcMaxSize() {
+        return mPixels.size() * new Pixel(255,255,255, 999, 999).getSerializedLength();
+    }
     
 }
