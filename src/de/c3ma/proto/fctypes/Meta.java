@@ -37,7 +37,7 @@ public class Meta implements FullcircleTypes, FullcircleSerialize {
     }
     
 
-    byte[] serialize() {
+    public byte[] serialize() {
         int offset = 0;
         byte[] buffer = new byte[1024];
         

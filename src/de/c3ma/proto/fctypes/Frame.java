@@ -18,6 +18,9 @@ public class Frame implements FullcircleTypes {
     private ArrayList<Pixel> mPixels = new ArrayList<Pixel>();
     private int width = 0;
     
+    /**
+     * The user must add enough Pixel (@see this{@link #add(Pixel)} to reach the necessary resolution.
+     */
     public Frame() {
         
     }
@@ -87,6 +90,10 @@ public class Frame implements FullcircleTypes {
         return false;
     }
     
+    /**
+     * Serialize Meta length to tansmit and Data
+     * @return
+     */
     public byte[] serialize()
     {
         byte [] frame = serializeAllPixels();
@@ -117,6 +124,39 @@ public class Frame implements FullcircleTypes {
         System.arraycopy(tempBuffer, 0, retBuffer, 0, offset);
         return retBuffer;
     }
+    
+    /**
+     * Serialize only this frame (all containing pixel)
+     * @return
+     */
+    public byte[] serializeFrame()
+    {
+        byte [] frame = serializeAllPixels();
+        final int pixelDataSize = frame.length;
+                
+        int offset=0;
+        int outputBufferLength = pixelDataSize + 6 + 1;
+        byte[] tempBuffer = new byte[outputBufferLength + BUFFER_SPACE ];
+        
+        offset = Utils.addType(tempBuffer, offset, SNIPTYPE_FRAME);
+        
+        
+        offset = Proto.serialize(tempBuffer, offset, SNIP_FRAMESNIP, Proto.PROTOTYPE_LENGTHD);
+        /*
+         * Add header for Frames, with two length values. Calculate first with length + length of next header :-/
+         */
+        offset = Proto.serialize_number(tempBuffer, offset, pixelDataSize + 1);
+        
+        if (offset + pixelDataSize >= outputBufferLength)
+            throw new NumberFormatException("Need space for " + (offset + pixelDataSize) + " bytes, but only " + outputBufferLength + " are available.");
+        
+        offset = Utils.addLengthd(tempBuffer, offset, FRAMESNIP_FRAME, frame, pixelDataSize);
+        
+        /* Shrink the returning buffer to the needed size */
+        byte[] retBuffer = new byte[offset];
+        System.arraycopy(tempBuffer, 0, retBuffer, 0, offset);
+        return retBuffer;
+    }
 
     private byte[] serializeAllPixels() {
         byte[] buffer = new byte[calculateSerializedPixelLength()];
@@ -135,6 +175,17 @@ public class Frame implements FullcircleTypes {
             amount += p.getSerializedLength();
         }
         return amount;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        if (width == 0)
+            return 0;
+        else
+            return this.mPixels.size() / width;
     }
     
 }

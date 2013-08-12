@@ -87,7 +87,7 @@ public class Utils implements FullcircleTypes {
      * 
      * @return the new offset
      */
-    static int addLengthd(byte[] buffer, int offset, int proto_id, byte[] data, int length) {
+    public static int addLengthd(byte[] buffer, int offset, int proto_id, byte[] data, int length) {
         // Error
         if (offset == -1) {
             return -1;
