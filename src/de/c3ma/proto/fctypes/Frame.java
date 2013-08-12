@@ -129,7 +129,7 @@ public class Frame implements FullcircleTypes {
      * Serialize only this frame (all containing pixel)
      * @return
      */
-    public byte[] serializeFrame()
+    public byte[] serializeBinaryFrame()
     {
         byte [] frame = serializeAllPixels();
         final int pixelDataSize = frame.length;
@@ -138,10 +138,7 @@ public class Frame implements FullcircleTypes {
         int outputBufferLength = pixelDataSize + 6 + 1;
         byte[] tempBuffer = new byte[outputBufferLength + BUFFER_SPACE ];
         
-        offset = Utils.addType(tempBuffer, offset, SNIPTYPE_FRAME);
-        
-        
-        offset = Proto.serialize(tempBuffer, offset, SNIP_FRAMESNIP, Proto.PROTOTYPE_LENGTHD);
+        offset = Proto.serialize(tempBuffer, offset, BINARYSEQUENCE_FRAME, Proto.PROTOTYPE_LENGTHD);
         /*
          * Add header for Frames, with two length values. Calculate first with length + length of next header :-/
          */
@@ -149,7 +146,7 @@ public class Frame implements FullcircleTypes {
         
         if (offset + pixelDataSize >= outputBufferLength)
             throw new NumberFormatException("Need space for " + (offset + pixelDataSize) + " bytes, but only " + outputBufferLength + " are available.");
-        
+
         offset = Utils.addLengthd(tempBuffer, offset, FRAMESNIP_FRAME, frame, pixelDataSize);
         
         /* Shrink the returning buffer to the needed size */

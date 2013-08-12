@@ -65,13 +65,13 @@ public class Sequence implements FullcircleTypes {
     private byte[] serializeAllFrames() {
         if (frames.size() <= 0)
             return new byte[0];
-        byte[] frame = frames.get(0).serializeFrame(); 
+        byte[] frame = frames.get(0).serializeBinaryFrame(); 
         
         byte[] tmpBuffer = new byte[frame.length * frames.size()];
         int offset = 0;
         for (int i = 1; i < frames.size(); i++) {
             System.arraycopy(frame, 0, tmpBuffer, offset, frame.length);
-            frame = frames.get(i).serializeFrame();
+            frame = frames.get(i).serializeBinaryFrame();
         }
         
         return tmpBuffer;
