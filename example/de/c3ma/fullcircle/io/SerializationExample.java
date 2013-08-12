@@ -15,7 +15,7 @@ import de.c3ma.proto.fctypes.Frame;
  */
 public class SerializationExample {
 
-    private static final int WIDTH = 11;
+    private static final int WIDTH = 7;
     private static final int HEIGHT = 10;
 
     /**
@@ -26,10 +26,10 @@ public class SerializationExample {
         /* generate some dummy data */
         Sequence s = new Sequence(12, WIDTH, HEIGHT);
         Frame f = new Frame(WIDTH, HEIGHT);
-        f.updatePixel(255, 0, 0, 3, 4);
+        f.updatePixel(0, 255, 255, 2, 0);
         s.addFrame(f);
         Frame f2 = new Frame(WIDTH, HEIGHT);
-        f2.updatePixel(255, 0, 0, 4, 4);
+        f2.updatePixel(0, 0, 255, 4, 1);
         s.addFrame(f);
         Frame f3 = new Frame(WIDTH, HEIGHT);
         f3.updatePixel(0, 255, 0, 2, 4);

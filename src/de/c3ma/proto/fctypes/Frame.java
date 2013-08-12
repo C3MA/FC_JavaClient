@@ -133,14 +133,8 @@ public class Frame implements FullcircleTypes {
         final int pixelDataSize = frame.length;
                 
         int offset=0;
-        int outputBufferLength = pixelDataSize + 6 + 1;
+        int outputBufferLength = pixelDataSize + 1;
         byte[] tempBuffer = new byte[outputBufferLength + BUFFER_SPACE ];
-        
-//        offset = Proto.serialize(tempBuffer, offset, BINARYSEQUENCE_FRAME, Proto.PROTOTYPE_LENGTHD);
-//        /*
-//         * Add header for Frames, with two length values. Calculate first with length + length of next header :-/
-//         */
-//        offset = Proto.serialize_number(tempBuffer, offset, pixelDataSize /*+ 1*/);
         
         if (offset + pixelDataSize >= outputBufferLength)
             throw new NumberFormatException("Need space for " + (offset + pixelDataSize) + " bytes, but only " + outputBufferLength + " are available.");
@@ -163,7 +157,7 @@ public class Frame implements FullcircleTypes {
         }
         return buffer;
     }
-    
+        
     private int calculateSerializedPixelLength() {
         int amount = 0;
         for (Pixel p : this.mPixels) {
@@ -181,6 +175,16 @@ public class Frame implements FullcircleTypes {
             return 0;
         else
             return this.mPixels.size() / width;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        for (Pixel p : mPixels) {
+            sb.append(p + ", ");
+        }
+        sb.append("}");
+        return sb.toString();
     }
     
 }
