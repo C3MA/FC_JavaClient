@@ -67,7 +67,7 @@ public class Sequence implements FullcircleTypes {
             return new byte[0];
         Frame f = frames.get(0);
         byte[] frame = f.serializeBinaryFrame();
-        byte[] tmpBuffer = new byte[frame.length * frames.size()];
+        byte[] tmpBuffer = new byte[frame.length * frames.size() + BUFFER_SPACE];
 
         int offset = 0;
         
@@ -81,6 +81,9 @@ public class Sequence implements FullcircleTypes {
             offset += tmpFrame.length;
         }
         
-        return tmpBuffer;
+        /* Shrink the returning buffer to the needed size */
+        byte[] retBuffer = new byte[offset];
+        System.arraycopy(tmpBuffer, 0, retBuffer, 0, offset);
+        return retBuffer;
     }
 }

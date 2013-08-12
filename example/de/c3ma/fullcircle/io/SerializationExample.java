@@ -30,10 +30,10 @@ public class SerializationExample {
         s.addFrame(f);
         Frame f2 = new Frame(WIDTH, HEIGHT);
         f2.updatePixel(0, 0, 255, 4, 1);
-        s.addFrame(f);
+        s.addFrame(f2);
         Frame f3 = new Frame(WIDTH, HEIGHT);
         f3.updatePixel(0, 255, 0, 2, 4);
-        s.addFrame(f);
+        s.addFrame(f3);
         
         /* Serialize it */
         FileOutputStream fos = new FileOutputStream(new File("test.seq"));
