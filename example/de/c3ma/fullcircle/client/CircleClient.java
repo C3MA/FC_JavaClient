@@ -65,6 +65,7 @@ public class CircleClient {
                     mHeight = ia.getHeight();
                     ymittel = mHeight / 2;
                     r = Math.min(xmittel, ymittel);
+                    System.out.println("Used radius: "+ r);
                     r--; // start with a smaller circle
                     System.out.println("Draw cicle with center [" + xmittel + "x" + ymittel + "] and radius of " + r);
                     
@@ -89,7 +90,9 @@ public class CircleClient {
 
                     @Override
                     protected void drawPixel(int x, int y, SimpleColor c) {
-                        f.add(new Pixel(x, y, c));
+                        Pixel p = new Pixel(x, y, c);
+                        p.secureDimension(mWidth, mHeight);
+                        f.add(p);
                     }
                     
                 }.drawEllipse(count);

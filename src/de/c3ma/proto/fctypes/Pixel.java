@@ -107,4 +107,22 @@ public class Pixel implements FullcircleTypes {
         this.green = Math.min(RGB_MAX_VALUE, this.green + p.green);
         this.blue = Math.min(RGB_MAX_VALUE, this.blue   + p.blue);
     }
+
+    
+    /**
+     * Dirty Hack, so the Wall only gets valid Pixel.
+     * The x value is reduced to mWidth - 1, if too large.
+     * The y value is reduced to mHeight - 1, if too large.
+     * @param width    The width of the wall.
+     * @param height   The height of the wall.
+     */
+    public void secureDimension(int width, int height) {
+        if (x >= width) {
+            x = width - 1;
+        }
+        
+        if (y >= height) {
+            y = height - 1;
+        }
+    }
 }
