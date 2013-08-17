@@ -148,7 +148,9 @@ public class Utils implements FullcircleTypes {
         case SNIPTYPE_ACK:
             return new Ack();
         case SNIPTYPE_ERROR:
-            //return new ErrorType();
+            FullcircleSerialize et = new ErrorType();
+            et.deserialize(payload, ret.getOffset());
+            return et;
         /* TODO not handled parsing */
         case SNIPTYPE_PING:
         case SNIPTYPE_PONG:

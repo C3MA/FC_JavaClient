@@ -37,6 +37,7 @@ public class CircleClient {
      * @throws InterruptedException 
      */
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
+        System.out.println("Connecting to : " + args[0]);
         RawClient rc = new RawClient(args[0]);
         
         rc.requestInformation();

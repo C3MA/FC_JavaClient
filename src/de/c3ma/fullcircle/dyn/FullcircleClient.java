@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import de.c3ma.fullcircle.RawClient;
+import de.c3ma.proto.fctypes.ErrorType;
 import de.c3ma.proto.fctypes.Frame;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
@@ -71,6 +72,8 @@ public class FullcircleClient {
                 } else if (got instanceof Start) {
                     System.out.println("We have a GOOO send some data!");
                     this.mConnectionEstablished = true;
+                } else if (got instanceof ErrorType) {
+                    System.err.println("Error:" + got);
                 } else if (got instanceof Timeout) {
                     System.out.println("Too slow, so we close the session");
                     client.close();

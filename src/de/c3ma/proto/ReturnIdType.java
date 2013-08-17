@@ -24,4 +24,9 @@ public class ReturnIdType extends ReturnOffset {
     public int getType() {
         return type;
     }
+    
+    @Override
+    public String toString() {
+        return "Id=" + id +"; type=" + type;
+    }
 }
