@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
 import de.c3ma.fullcircle.RawClient;
+import de.c3ma.proto.fctypes.ErrorType;
 import de.c3ma.proto.fctypes.FullcircleSerialize;
 import de.c3ma.proto.fctypes.InfoAnswer;
 import de.c3ma.proto.fctypes.Meta;
@@ -197,6 +198,8 @@ public abstract class DynamicFrame {
             } else if (got instanceof Timeout) {
                 System.out.println("Too slow, so we close the session");
                 client.close();
+            } else if (got instanceof ErrorType) {
+                System.err.println("Error:" + got);
             }
         }
     }
