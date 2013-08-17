@@ -147,8 +147,10 @@ void draw()
 
 
   /*** wait for a connection in order to know the resolution ***/
-  if (output != null) {
-    if (i > 0 && i % slotsize == 0) {
+  if (output != null)
+  {
+    if (i > 0 && i % slotsize == 0)
+    {
       // draw a horizontal line for each slot
       stroke(color(255,0,0));
       line(outi * (slotsize * strechPeak), startVisualisationY - output[outi], (outi + 1) * (slotsize * strechPeak), startVisualisationY - output[outi]);
@@ -157,7 +159,8 @@ void draw()
       stroke(color(255,255,255));
       line((outi + 1) * (slotsize * strechPeak), 0, (outi + 1) * (slotsize * strechPeak), height);
 
-      if (slomotion) { // only modify the item once
+      if (slomotion) 
+      { // only modify the item once
         if (shrinkValue)
           output[outi] -= 10; // fade slowly to the bottom
       }
@@ -168,13 +171,17 @@ void draw()
         outi = output.length - 1;
     }
 
-    if (slomotion) {
+    if (slomotion)
+    {
       if (value < output[outi])
         shrinkValue=true;
       else
         output[outi] = value;
-    } else {
-      output[outi] = max(output[outi],  value);
+    }
+    else
+    {
+//      output[outi] = max(output[outi],  value);
+        output[outi] = (int) ((output[outi] +  value) / 2);
     }
     maxValue = max(maxValue, value);
    }
