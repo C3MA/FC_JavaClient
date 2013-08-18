@@ -32,9 +32,13 @@ public class RawClient {
      * @throws UnknownHostException 
      */
     public RawClient(final String host) throws UnknownHostException, IOException {
-        this.mSocket = new Socket( host, PORT );
+        this(host, PORT);
     }
     
+    public RawClient(String host, int portnumber) throws UnknownHostException, IOException {
+        this.mSocket = new Socket( host, portnumber);
+    }
+
     /**
      * Request information about the current used resolution of the wall
      * @throws IOException

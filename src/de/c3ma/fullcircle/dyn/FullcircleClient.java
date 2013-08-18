@@ -52,6 +52,20 @@ public class FullcircleClient {
         return false;
     }
 
+    public boolean open(final String host, final int portnumber) {
+        try {
+            this.client = new RawClient(host, portnumber);
+            // ask for the resolution
+            this.client.requestInformation();
+            return true;
+        } catch (UnknownHostException e) {
+            System.err.println("Error with hostname : " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Connection problem : " + e.getMessage());
+        }
+        return false;
+    }
+    
     public boolean processNetwork() {
         // without an connection, anything is to be done
         if (client == null)

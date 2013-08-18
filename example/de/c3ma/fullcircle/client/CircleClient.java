@@ -38,7 +38,7 @@ public class CircleClient {
      */
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
         System.out.println("Connecting to : " + args[0]);
-        RawClient rc = new RawClient(args[0]);
+        RawClient rc = new RawClient(args[0], 24567); /* define the default port, or another one for debugging */ 
         
         rc.requestInformation();
         
