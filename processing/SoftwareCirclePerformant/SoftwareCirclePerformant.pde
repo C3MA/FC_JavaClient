@@ -27,7 +27,8 @@ String statusMessage = "First insert the host of the Wall";
 
 FullcircleClient fc = new FullcircleClient();
 
-String fullcircle_host = "";
+String fullcircle_host = "10.23.42.201";
+final int portnumber = 24567; /* default = 24567, debug = 24568 */
 
 int micFactor = 100;
 int rotationFactor = 100;
@@ -75,7 +76,8 @@ void setup()
 
   controlP5.addToggle("slomotion", false, 700, startVisualisationY + 60, 80, 20);
   controlP5.addSlider("micFactor",1,100,50,10,startVisualisationY + 60,300,10);
-  controlP5.addTextfield("fullcircle_host",10,startVisualisationY + 10,400,20);
+  Textfield txt = controlP5.addTextfield("fullcircle_host", 10,startVisualisationY + 10,400,20);
+  txt.setText("10.23.42.201");
   controlP5.addSlider("radiusFactor",1,100,50,10,startVisualisationY + 80,300,10);
   controlP5.addSlider("rotationFactor",1,100,50,10,startVisualisationY + 100,300,10);
 }
@@ -85,7 +87,7 @@ void setup()
  */
 public void fullcircle_host(String theText) {
      println("Host is " + theText );
-     if (fc.open(theText)) {
+     if (fc.open(theText, portnumber)) {
        statusMessage = "Connected to : " + theText + ". Wait for start signal";
      }
 //  println("controlEvent: accessing a string from controller '"++"': "+theEvent.controller().stringValue());
@@ -100,6 +102,7 @@ int startVisualisationY;
 
 void draw()
 {
+  try {
   // keep the network connection to the wall alive.
   fc.processNetwork();
   
@@ -196,6 +199,9 @@ void draw()
   // keep us informed about the window being used
   
   text(statusMessage, 5, 20);
+  } catch(Exception e) {
+    e.printStackTrace();
+  }
 }
 
 void keyReleased()
@@ -249,7 +255,7 @@ void sendFrame() {
               Pixel p = new Pixel(Math.min(255, c.getRed() ), 
                         Math.min(255, c.getGreen() ), 
                         Math.min(255, c.getBlue() ), x, y);
-                f.add(p); 
+              f.add(p); 
             }
         };
   re.drawEllipse(globalCounter);
